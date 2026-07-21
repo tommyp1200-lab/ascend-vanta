@@ -1,55 +1,45 @@
-# Ascend Vanta Internal Link Map
+# Ascend Vanta One-Page Link Map
 
-This map describes the authority-layer graph introduced in the SEO foundation sprint. All links are server rendered, use real `<a href>` destinations through Next.js Link, and remain usable without the cinematic homepage runtime.
+Current policy: Ascend Vanta is a one-page authority website. The only canonical content URL is `https://www.ascendvanta.com/`. Navigation and topic relationships use real homepage fragments; fragments are not separate documents and do not appear in the sitemap.
 
 ## Primary navigation
 
-The homepage ends with a restrained “Explore the system” navigation after the approved about section. It is outside the horizontal capability sequence and links directly to:
-
-- `/about`
-- `/work`
-- `/capabilities`
-- `/publications`
-- `/contact`
-
-Supporting pages share a lightweight header and footer that expose the same primary routes plus the homepage. Every route is therefore reachable from the homepage in one click and from any supporting route in no more than two clicks.
-
-## Route graph
-
-| Source | Direct destinations | Purpose |
+| Label | Destination | Section purpose |
 | --- | --- | --- |
-| `/` | About, Work, Capabilities, Publications, Contact | Moves from the cinematic flagship into durable authority resources |
-| `/about` | All five capabilities, Work, all three publications, Contact | Connects the Tommy Pisano entity to evidence, thinking, and inquiry context |
-| `/work` | Homepage, About, Publications, four relevant capabilities | Connects the flagship implementation to its design, systems, search, and measurement disciplines |
-| `/capabilities` | All five capability detail routes | Topic hub for the capability cluster |
-| Each capability detail | Three related capabilities, two supporting publications, Work, About, Contact | Shows how each discipline participates in the broader system |
-| `/publications` | All three publication detail routes | Editorial hub for the publication cluster |
-| Each publication detail | Three supporting capabilities, two related publications, About/author | Connects a field guide to expertise, adjacent reading, and the primary entity |
-| `/contact` | About, Work, Capabilities | Gives a useful preparation path while an approved public contact channel remains unavailable |
-| 404 | Homepage, Capabilities | Returns a visitor to useful crawlable destinations |
+| About | `/#about` | Tommy Pisano’s verified biography, perspective, capabilities, and public profiles |
+| Work | `/#work` | Selected cinematic and mechanical-transformation work |
+| Capabilities | `/#capabilities` | Connected creative, technical, automation, search, and measurement system |
+| Publications | `/#publications` | Three Ascend Intelligence field guides and the in-place reader |
+| Contact | `/#contact` | Approved public profile contact paths and section navigation |
 
-## Capability relationships
+All five links are server rendered and keyboard accessible. No CTA or navigation block is inserted inside the horizontal capability sequence.
 
-- Marketing Systems → Web Experience & UX/UI, AI & Automation, Analytics & Attribution
-- Web Experience & UX/UI → Marketing Systems, SEO/AEO/GEO, Analytics & Attribution
-- AI & Automation → Marketing Systems, Analytics & Attribution, Web Experience & UX/UI
-- SEO, AEO & GEO → Web Experience & UX/UI, Analytics & Attribution, Marketing Systems
-- Analytics & Attribution → Marketing Systems, Web Experience & UX/UI, AI & Automation
+## Capability anchors
 
-Each capability also links to the two publications that most directly support its operating model.
+- `/#marketing-systems`
+- `/#web-experience-ux-ui`
+- `/#ai-automation`
+- `/#seo-aeo-geo`
+- `/#analytics-attribution`
 
-## Publication relationships
+These anchors identify existing semantic panels inside `/#capabilities`; they are not independent pages.
 
-- SEO, GEO & AI Search Survival Guide → SEO/AEO/GEO, Analytics, Web Experience; both other publications
-- Content Is Not the Strategy → Marketing Systems, Web Experience, Analytics; both other publications
-- LinkedIn Featured Framework → Marketing Systems, Analytics, AI & Automation; both other publications
+## Publication anchors
 
-Every publication identifies and links to Tommy Pisano’s About page. No publication is an image-only or orphaned resource.
+- `/#seo-geo-ai-search-survival-guide`
+- `/#content-is-not-the-strategy`
+- `/#linkedin-featured-framework`
 
-## Crawl-depth and orphan check
+Each anchor identifies a publication entry with a title and concise summary in the initial homepage HTML. The interactive publication reader and source pages remain in place.
 
-- Canonical indexable URLs: 14
-- Maximum intended click depth from the homepage: 2
-- Orphan canonical pages: 0
-- Sitemap-only pages: 0
-- Links inserted inside the horizontal cinematic sequence: 0
+## Legacy route redirects
+
+The former About, Work, Capability, Publication, and Contact URLs permanently redirect in one hop to the matching fragment on `https://www.ascendvanta.com/`. There are no sitemap-only or orphan canonical content pages.
+
+## Crawl model
+
+- Canonical indexable content URLs: 1
+- Homepage section anchors: 13 primary/topic/publication anchors
+- Sitemap URL count: 1
+- Redirect chains: 0
+- Separate author, profile, social, article, capability, or contact pages: 0

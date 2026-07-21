@@ -9,6 +9,7 @@ type TurnDirection = "next" | "previous";
 
 interface Publication {
   id: string;
+  anchor: string;
   issue: string;
   category: string;
   title: string;
@@ -22,6 +23,7 @@ interface Publication {
 const PUBLICATIONS: readonly Publication[] = [
   {
     id: "search-survival",
+    anchor: "seo-geo-ai-search-survival-guide",
     issue: "01",
     category: "SEARCH INTELLIGENCE",
     title: "Search Didn’t Die. It Learned to Answer.",
@@ -36,6 +38,7 @@ const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "content-system",
+    anchor: "content-is-not-the-strategy",
     issue: "02",
     category: "CONTENT SYSTEMS",
     title: "Stop Feeding the Feed. Build the System.",
@@ -50,6 +53,7 @@ const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "growth-system",
+    anchor: "linkedin-featured-framework",
     issue: "03",
     category: "GROWTH OPERATIONS",
     title: "From Marketing Motion to Measurable Momentum.",
@@ -157,7 +161,7 @@ export function EditorialMagazineLibrary() {
   return (
     <section
       ref={sectionRef}
-      id="editorial-library"
+      id="publications"
       className="editorial-archive"
       aria-labelledby="editorial-archive-title"
     >
@@ -185,6 +189,7 @@ export function EditorialMagazineLibrary() {
         {PUBLICATIONS.map((publication, index) => (
           <button
             key={publication.id}
+            id={publication.anchor}
             type="button"
             className={index === activeIssueIndex ? "is-active" : undefined}
             style={{
@@ -198,6 +203,7 @@ export function EditorialMagazineLibrary() {
             <span className="publication-index__copy">
               <small>{publication.category}</small>
               <strong>{publication.title}</strong>
+              <span className="publication-index__deck">{publication.deck}</span>
             </span>
             <span className="publication-index__count">{String(publication.pages.length).padStart(2, "0")} PAGES</span>
             <span className="publication-index__signal" aria-hidden="true" />

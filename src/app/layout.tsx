@@ -8,6 +8,7 @@ import {
   PERSON_ID,
   WEBSITE_ID,
 } from "@/lib/siteMetadata";
+import { APPROVED_PROFILES } from "@/lib/approvedProfiles";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -87,8 +88,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         "@type": "Person",
         "@id": PERSON_ID,
         name: "Tommy Pisano",
-        url: new URL("/about", siteUrl).toString(),
+        url: new URL("/#about", siteUrl).toString(),
         jobTitle: "Senior UX/UI Designer, Creative Technologist, and Growth Systems Architect",
+        sameAs: APPROVED_PROFILES.map(({ url }) => url),
         knowsAbout: [
           "UX/UI design",
           "creative technology",

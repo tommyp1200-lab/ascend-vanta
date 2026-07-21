@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion } from "motion/react";
 import { useNarrativeCoordinator } from "@/components/narrative/NarrativeCoordinator";
 import { useNarrativeChapter } from "@/components/narrative/useNarrativeChapter";
+import { APPROVED_PROFILES } from "@/lib/approvedProfiles";
 
 const capabilities = [
   { label: "Branding", detail: "Identity + positioning" },
@@ -40,7 +41,7 @@ export function AboutSystemsSection() {
   return (
     <section
       ref={sectionRef}
-      id="about-systems"
+      id="about"
       className="about-systems"
       aria-labelledby="about-systems-title"
     >
@@ -139,6 +140,30 @@ export function AboutSystemsSection() {
           </p>
         </motion.div>
       </div>
+
+      <motion.nav
+        className="about-systems__profiles"
+        aria-label="Verified public profiles for Tommy Pisano"
+        variants={reveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        <p>Verified public profiles</p>
+        <div>
+          {APPROVED_PROFILES.map((profile) => (
+            <a
+              key={profile.url}
+              href={profile.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {profile.accessibleName}
+              <span aria-hidden="true"> ↗</span>
+            </a>
+          ))}
+        </div>
+      </motion.nav>
 
       <motion.div
         className="about-system-map"

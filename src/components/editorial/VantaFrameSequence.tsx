@@ -404,12 +404,12 @@ export function VantaFrameSequence({
   return (
     <section
       ref={sectionRef}
-      id="vanta-frame-sequence"
+      id="work"
       className="vanta-frame-sequence"
       aria-labelledby="vanta-frame-sequence-title"
     >
       <h2 id="vanta-frame-sequence-title" className="sr-only">
-        Vanta mechanical transformation
+        Selected work: Vanta mechanical transformation
       </h2>
       {staticPresentation && near ? (
         <NextImage

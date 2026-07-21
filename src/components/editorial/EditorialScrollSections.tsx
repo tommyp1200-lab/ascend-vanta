@@ -2295,7 +2295,7 @@ export function EditorialScrollSections({
       <div className="vanta-horizontal-handoff">
         <section
           ref={horizontalRef}
-          id="systems-horizontal-story"
+          id="capabilities"
           className="vanta-horizontal-sequence"
           aria-labelledby="horizontal-question-title"
         >

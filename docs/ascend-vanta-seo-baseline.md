@@ -1,5 +1,7 @@
 # Ascend Vanta SEO Baseline
 
+> Historical baseline. Ascend Vanta intentionally returned to a one-page authority architecture after the temporary multi-route authority experiment. The current route policy is documented in `docs/ascend-vanta-one-page-seo-report.md`.
+
 Baseline captured before the authority-layer implementation from production commit `6bbfdbb98e2b10ca7b6f7f9da7ed8e71f9edbd03` and the optimized local production output. Production origin: `https://www.ascendvanta.com`.
 
 No connected Google Search Console or analytics property was available for this sprint. This report makes no claims about index coverage, queries, rankings, traffic, or field performance.
