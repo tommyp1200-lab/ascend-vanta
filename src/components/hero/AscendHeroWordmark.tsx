@@ -1,0 +1,43 @@
+"use client";
+
+import Image from "next/image";
+import type { RefObject } from "react";
+
+export function AscendHeroWordmark({
+  wordmarkRef,
+}: {
+  wordmarkRef: RefObject<HTMLHeadingElement | null>;
+}) {
+  return (
+    <h1 ref={wordmarkRef} className="hero-wordmark-lockup">
+      <Image
+        className="hero-wordmark-image"
+        src="/assets/wordmark/ascend-vanta-wordmark.svg"
+        alt="ASCEND VANTA"
+        width={2400}
+        height={520}
+        priority
+        unoptimized
+        sizes="(max-width: 767px) 96vw, 92vw"
+      />
+      <svg
+        className="hero-wordmark-signal"
+        viewBox="0 0 2400 520"
+        preserveAspectRatio="xMidYMid meet"
+        aria-hidden="true"
+      >
+        <path
+          className="hero-wordmark-signal-path hero-wordmark-signal-path--left"
+          pathLength="1"
+          d="M206.5 212V318L162.1 330H1207.2L1312.2 394"
+        />
+        <path
+          className="hero-wordmark-signal-path hero-wordmark-signal-path--right"
+          pathLength="1"
+          d="M2193.5 212V318L2237.9 330H1365.2L1312.2 394"
+        />
+        <circle className="hero-wordmark-signal-node" cx="1312.2" cy="394" r="8" />
+      </svg>
+    </h1>
+  );
+}

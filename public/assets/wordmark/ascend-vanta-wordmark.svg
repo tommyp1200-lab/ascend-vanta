@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="520" viewBox="0 0 2400 520" role="img" aria-labelledby="wordmark-title" data-wordmark="ASCEND VANTA">
+  <title id="wordmark-title">ASCEND VANTA</title>
+  <defs>
+    <linearGradient id="chrome-face" x1="0" y1="104" x2="0" y2="298" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.15" stop-color="#d8dce0"/>
+      <stop offset="0.34" stop-color="#777e85"/>
+      <stop offset="0.48" stop-color="#f8fafb"/>
+      <stop offset="0.68" stop-color="#9aa1a7"/>
+      <stop offset="0.84" stop-color="#eef1f3"/>
+      <stop offset="1" stop-color="#737b82"/>
+    </linearGradient>
+    <linearGradient id="chrome-edge" x1="0" y1="110" x2="0" y2="305" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.42" stop-color="#b5bcc2"/>
+      <stop offset="0.7" stop-color="#4c555d"/>
+      <stop offset="1" stop-color="#f2f5f6"/>
+    </linearGradient>
+    <linearGradient id="rail-face" x1="0" y1="320" x2="0" y2="416" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f8fafb"/>
+      <stop offset="0.28" stop-color="#92999f"/>
+      <stop offset="0.55" stop-color="#f0f2f3"/>
+      <stop offset="1" stop-color="#545d64"/>
+    </linearGradient>
+    <linearGradient id="ascend-green" x1="0" y1="220" x2="0" y2="416" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#eaff8f"/>
+      <stop offset="0.35" stop-color="#cfff04"/>
+      <stop offset="1" stop-color="#a8d900"/>
+    </linearGradient>
+    <linearGradient id="extrusion-0" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5e676d"/>
+      <stop offset="0.42" stop-color="#20272c"/>
+      <stop offset="1" stop-color="#080b0f"/>
+    </linearGradient>
+    <linearGradient id="extrusion-1" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#11171b"/>
+      <stop offset="0.5" stop-color="#485159"/>
+      <stop offset="1" stop-color="#0a0d11"/>
+    </linearGradient>
+    <filter id="green-glow" x="-30%" y="-80%" width="160%" height="260%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4.5" result="blur"/>
+      <feColorMatrix in="blur" values="1 0 0 0 0.68  0 1 0 0 1  0 0 1 0 0.02  0 0 0 0.9 0" result="greenBlur"/>
+      <feMerge><feMergeNode in="greenBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="wordmark-shadow" x="-10%" y="-30%" width="130%" height="190%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blur"/>
+      <feOffset in="blur" dx="8" dy="13" result="offset"/>
+      <feColorMatrix in="offset" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.75 0" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <g id="letterforms" fill-rule="nonzero">
+      <path id="letter-A-1" data-character="A" d="M328.93 280L236.75 146.90C230.37 137.66 221.35 130.40 207.71 130.40C193.63 130.40 184.83 138.10 178.45 146.90L84.07 280L137.31 280L207.05 181.66L248.63 241.72L185.27 241.72L157.99 280Z"/>
+      <path id="letter-S-1" data-character="S" d="M461.77 280C502.69 280 521.17 265.26 521.17 232.92C521.17 204.98 501.81 190.24 465.29 190.24L384.99 190.24C375.53 190.24 371.13 187.16 371.13 180.56C371.13 174.18 375.53 171.10 384.99 171.10L487.95 171.10L517.21 132.82L388.51 132.82C346.93 132.82 326.47 148 326.47 178.36C326.47 206.30 347.15 222.58 383.01 222.58L462.65 222.58C472.11 222.58 476.51 225.44 476.51 232.26C476.51 238.86 472.33 241.72 463.09 241.72L350.45 241.72L321.19 280Z"/>
+      <path id="letter-C-1" data-character="C" d="M684.81 280L713.85 241.72L610.89 241.72C583.61 241.72 567.55 228.08 567.55 204.98C567.55 182.76 582.51 171.10 610.89 171.10L684.81 171.10L713.85 132.82L610.89 132.82C558.97 132.82 522.23 162.74 522.23 204.98C522.23 247.88 560.07 280 610.89 280Z"/>
+      <path id="letter-E-1" data-character="E" d="M760.45 171.10L855.93 171.10L885.41 132.82L714.91 132.82L714.91 280L856.59 280L885.63 241.72L760.45 241.72L760.45 222.58L850.43 222.58L876.83 190.02L760.45 190.02Z"/>
+      <path id="letter-N-1" data-character="N" d="M885.59 280L929.37 280L929.37 194.42L1017.15 274.50C1023.31 280.22 1028.59 282.64 1035.41 282.64C1050.81 282.64 1060.27 271.86 1060.27 254.92L1060.27 132.82L1016.71 132.82L1016.71 218.62L928.49 138.10C922.55 132.60 917.27 130.40 910.45 130.40C895.05 130.40 885.59 140.96 885.59 158.12Z"/>
+      <path id="letter-D-1" data-character="D" d="M1170.67 280C1221.49 280 1259.33 247.88 1259.33 204.98C1259.33 162.74 1222.59 132.82 1170.67 132.82L1101.37 132.82L1072.11 171.10L1170.67 171.10C1197.29 171.10 1213.79 184.08 1213.79 204.98C1213.79 228.74 1198.83 241.72 1170.67 241.72L1117.65 241.72L1117.65 189.14L1072.11 189.14L1072.11 280Z"/>
+      <path id="letter-V-1" data-character="V" d="M1609.67 132.82L1556.43 132.82L1487.13 232.92L1419.15 132.82L1365.03 132.82L1457.21 265.92C1465.13 277.36 1474.37 282.42 1486.03 282.42C1497.69 282.42 1507.59 276.92 1515.29 265.92Z"/>
+      <path id="letter-A-2" data-character="A" d="M1775.95 280L1683.77 146.90C1677.39 137.66 1668.37 130.40 1654.73 130.40C1640.65 130.40 1631.85 138.10 1625.47 146.90L1531.09 280L1584.33 280L1654.07 181.66L1695.65 241.72L1632.29 241.72L1605.01 280Z"/>
+      <path id="letter-N-2" data-character="N" d="M1776.13 280L1819.91 280L1819.91 194.42L1907.69 274.50C1913.85 280.22 1919.13 282.64 1925.95 282.64C1941.35 282.64 1950.81 271.86 1950.81 254.92L1950.81 132.82L1907.25 132.82L1907.25 218.62L1819.03 138.10C1813.09 132.60 1807.81 130.40 1800.99 130.40C1785.59 130.40 1776.13 140.96 1776.13 158.12Z"/>
+      <path id="letter-T-1" data-character="T" d="M2068.03 280L2068.03 171.10L2114.45 171.10L2144.37 132.82L1979.81 132.82L1949.89 171.10L2022.71 171.10L2022.71 280Z"/>
+      <path id="letter-A-3" data-character="A" d="M2315.93 280L2223.75 146.90C2217.37 137.66 2208.35 130.40 2194.71 130.40C2180.63 130.40 2171.83 138.10 2165.45 146.90L2071.07 280L2124.31 280L2194.05 181.66L2235.63 241.72L2172.27 241.72L2144.99 280Z"/>
+    </g>
+    <path id="underline-rail" d="M 72.1 306 L 135.1 306 L 162.1 330 L 1207.2 330 L 1270.2 334 L 1312.2 370 L 1354.2 334 L 2237.9 330 L 2264.9 306 L 2327.9 306 L 2278.9 350 L 1365.2 350 L 1312.2 394 L 1259.2 350 L 121.1 350 Z"/>
+    <g id="wordmark-geometry">
+      <use href="#letterforms"/>
+      <use href="#underline-rail"/>
+    </g>
+    <clipPath id="letter-clip"><use href="#letterforms"/></clipPath>
+  </defs>
+
+  <g id="ascend-vanta-wordmark" filter="url(#wordmark-shadow)">
+    <g id="green-underglow" filter="url(#green-glow)" opacity="0.55">
+      <path d="M 72.1 345 L 1257.2 345 L 1312.2 396 L 1367.2 345 L 2327.9 345" fill="none" stroke="#cfff04" stroke-width="7" stroke-linejoin="miter"/>
+    </g>
+
+    <use href="#wordmark-geometry" transform="translate(16.00 16.00)" fill="url(#extrusion-0)" stroke="#080b0f" stroke-width="2" opacity="0.82"/>
+    <use href="#wordmark-geometry" transform="translate(14.85 14.85)" fill="url(#extrusion-1)" stroke="#080b0f" stroke-width="2" opacity="0.83"/>
+    <use href="#wordmark-geometry" transform="translate(13.70 13.70)" fill="url(#extrusion-0)" stroke="#080b0f" stroke-width="2" opacity="0.84"/>
+    <use href="#wordmark-geometry" transform="translate(12.55 12.55)" fill="url(#extrusion-1)" stroke="#080b0f" stroke-width="2" opacity="0.86"/>
+    <use href="#wordmark-geometry" transform="translate(11.40 11.40)" fill="url(#extrusion-0)" stroke="#080b0f" stroke-width="2" opacity="0.87"/>
+    <use href="#wordmark-geometry" transform="translate(10.25 10.25)" fill="url(#extrusion-1)" stroke="#080b0f" stroke-width="2" opacity="0.88"/>
+    <use href="#wordmark-geometry" transform="translate(9.10 9.10)" fill="url(#extrusion-0)" stroke="#080b0f" stroke-width="2" opacity="0.89"/>
+    <use href="#wordmark-geometry" transform="translate(7.95 7.95)" fill="url(#extrusion-1)" stroke="#080b0f" stroke-width="2" opacity="0.90"/>
+    <use href="#wordmark-geometry" transform="translate(6.80 6.80)" fill="url(#extrusion-0)" stroke="#080b0f" stroke-width="2" opacity="0.92"/>
+    <use href="#wordmark-geometry" transform="translate(5.65 5.65)" fill="url(#extrusion-1)" stroke="#080b0f" stroke-width="2" opacity="0.93"/>
+    <use href="#wordmark-geometry" transform="translate(4.50 4.50)" fill="url(#extrusion-0)" stroke="#080b0f" stroke-width="2" opacity="0.94"/>
+    <use href="#wordmark-geometry" transform="translate(3.35 3.35)" fill="url(#extrusion-1)" stroke="#080b0f" stroke-width="2" opacity="0.95"/>
+
+    <use href="#wordmark-geometry" fill="url(#chrome-face)" stroke="#222a30" stroke-width="7" stroke-linejoin="miter"/>
+    <use href="#underline-rail" fill="url(#rail-face)" stroke="url(#chrome-edge)" stroke-width="3" stroke-linejoin="miter"/>
+
+    <g id="ascend-green-accents" fill="url(#ascend-green)" stroke="#d9ff5a" stroke-width="1.5" filter="url(#green-glow)">
+      <polygon id="opening-a-connection" points="206.5,212.0 245.5,260.0 230.5,260.0 223.5,321.0 189.5,321.0 182.5,260.0 167.5,260.0"/>
+      <polygon id="terminal-a-connection" points="2193.5,212.0 2232.5,260.0 2217.5,260.0 2210.5,321.0 2176.5,321.0 2169.5,260.0 2154.5,260.0"/>
+      <polygon id="e-speed-cut" points="817.9,177.0 867.9,177.0 851.9,191.0 801.9,191.0"/>
+      <path id="center-rail-lock" d="M 1270.2 334 L 1312.2 370 L 1354.2 334 L 1336.2 334 L 1312.2 353 L 1288.2 334 Z"/>
+    </g>
+
+    <use href="#letterforms" fill="url(#chrome-face)" stroke="url(#chrome-edge)" stroke-width="3.2" stroke-linejoin="miter"/>
+    <use href="#letterforms" fill="none" stroke="#ffffff" stroke-opacity="0.48" stroke-width="1.2" stroke-linejoin="miter"/>
+    <path d="M 90 119 H 2310" clip-path="url(#letter-clip)" stroke="#ffffff" stroke-opacity="0.72" stroke-width="18" filter="blur(10px)"/>
+  </g>
+</svg>

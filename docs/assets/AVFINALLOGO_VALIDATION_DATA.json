@@ -1,0 +1,178 @@
+{
+  "desktop": {
+    "file": "public/assets/models/av-logo-desktop.glb",
+    "file_size_bytes": 238248,
+    "objects": 7,
+    "mesh_objects": [
+      "A_Primary",
+      "V_Primary"
+    ],
+    "hierarchy": {
+      "AV_Logo_Root": null,
+      "A_Root": "AV_Logo_Root",
+      "A_Primary": "A_Root",
+      "AV_ParticleField_Anchor": "AV_Logo_Root",
+      "AV_Portfolio_Frame_Anchor": "AV_Logo_Root",
+      "V_Root": "AV_Logo_Root",
+      "V_Primary": "V_Root"
+    },
+    "materials": [
+      "MAT_AV_FaceDetail",
+      "MAT_AV_Graphite"
+    ],
+    "expected_draw_calls": 4,
+    "vertices": 28939,
+    "triangles": 31998,
+    "bounds": {
+      "min": [
+        -0.49987,
+        -0.077492,
+        -0.30682
+      ],
+      "max": [
+        0.499882,
+        0.0775,
+        0.306656
+      ],
+      "dimensions": [
+        0.999752,
+        0.154992,
+        0.613476
+      ]
+    },
+    "non_manifold_edges": 24586,
+    "animations": []
+  },
+  "tablet": {
+    "file": "public/assets/models/av-logo-tablet.glb",
+    "file_size_bytes": 151416,
+    "objects": 7,
+    "mesh_objects": [
+      "A_Primary",
+      "V_Primary"
+    ],
+    "hierarchy": {
+      "AV_Logo_Root": null,
+      "A_Root": "AV_Logo_Root",
+      "A_Primary": "A_Root",
+      "AV_ParticleField_Anchor": "AV_Logo_Root",
+      "AV_Portfolio_Frame_Anchor": "AV_Logo_Root",
+      "V_Root": "AV_Logo_Root",
+      "V_Primary": "V_Root"
+    },
+    "materials": [
+      "MAT_AV_FaceDetail",
+      "MAT_AV_Graphite"
+    ],
+    "expected_draw_calls": 4,
+    "vertices": 16783,
+    "triangles": 17998,
+    "bounds": {
+      "min": [
+        -0.500122,
+        -0.077441,
+        -0.30682
+      ],
+      "max": [
+        0.500222,
+        0.0775,
+        0.306897
+      ],
+      "dimensions": [
+        1.000344,
+        0.154941,
+        0.613717
+      ]
+    },
+    "non_manifold_edges": 14594,
+    "animations": []
+  },
+  "mobile": {
+    "file": "public/assets/models/av-logo-mobile.glb",
+    "file_size_bytes": 91712,
+    "objects": 7,
+    "mesh_objects": [
+      "A_Primary",
+      "V_Primary"
+    ],
+    "hierarchy": {
+      "AV_Logo_Root": null,
+      "A_Root": "AV_Logo_Root",
+      "A_Primary": "A_Root",
+      "AV_ParticleField_Anchor": "AV_Logo_Root",
+      "AV_Portfolio_Frame_Anchor": "AV_Logo_Root",
+      "V_Root": "AV_Logo_Root",
+      "V_Primary": "V_Root"
+    },
+    "materials": [
+      "MAT_AV_FaceDetail",
+      "MAT_AV_Graphite"
+    ],
+    "expected_draw_calls": 4,
+    "vertices": 9024,
+    "triangles": 8999,
+    "bounds": {
+      "min": [
+        -0.500077,
+        -0.077308,
+        -0.306941
+      ],
+      "max": [
+        0.500295,
+        0.0775,
+        0.306897
+      ],
+      "dimensions": [
+        1.000372,
+        0.154808,
+        0.613838
+      ]
+    },
+    "non_manifold_edges": 8191,
+    "animations": []
+  },
+  "low": {
+    "file": "public/assets/models/av-logo-low.glb",
+    "file_size_bytes": 53676,
+    "objects": 7,
+    "mesh_objects": [
+      "A_Primary",
+      "V_Primary"
+    ],
+    "hierarchy": {
+      "AV_Logo_Root": null,
+      "A_Root": "AV_Logo_Root",
+      "A_Primary": "A_Root",
+      "AV_ParticleField_Anchor": "AV_Logo_Root",
+      "AV_Portfolio_Frame_Anchor": "AV_Logo_Root",
+      "V_Root": "AV_Logo_Root",
+      "V_Primary": "V_Root"
+    },
+    "materials": [
+      "MAT_AV_FaceDetail",
+      "MAT_AV_Graphite"
+    ],
+    "expected_draw_calls": 4,
+    "vertices": 4669,
+    "triangles": 3999,
+    "bounds": {
+      "min": [
+        -0.501072,
+        -0.077507,
+        -0.305944
+      ],
+      "max": [
+        0.500281,
+        0.0775,
+        0.306767
+      ],
+      "dimensions": [
+        1.001353,
+        0.155007,
+        0.612712
+      ]
+    },
+    "non_manifold_edges": 4453,
+    "animations": []
+  }
+}

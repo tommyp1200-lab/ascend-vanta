@@ -1,0 +1,39 @@
+{
+  "name": "ascend-vanta-2026-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack -p 3005",
+    "build": "next build",
+    "start": "next start -p 3005",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "optimize:vanta-robot": "node scripts/optimize-vanta-robot-glb.mjs output/vanta-robot/vanta-robot-rigged-uncompressed.glb public/assets/models/vanta-robot/vanta-robot-web.glb runtime",
+    "audit:vanta-robot": "node scripts/inspect_glb_structure.mjs public/assets/models/vanta-robot/vanta-robot-web.glb"
+  },
+  "dependencies": {
+    "@gsap/react": "^2.1.2",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
+    "clsx": "^2.1.1",
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.25",
+    "motion": "^12.42.2",
+    "next": "^16.2.10",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "three": "0.182.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.2",
+    "@types/node": "^26.1.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@types/three": "0.182.0",
+    "eslint": "^9.39.2",
+    "eslint-config-next": "^16.2.10",
+    "meshoptimizer": "^1.1.1",
+    "tailwindcss": "^4.3.2",
+    "typescript": "^5.9.3"
+  }
+}

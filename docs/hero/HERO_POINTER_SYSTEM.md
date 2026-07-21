@@ -1,0 +1,7 @@
+# Pointer System
+
+The full hero section is the interaction surface. Pointer coordinates are normalized against the pinned visible viewport—not the multi-viewport scroll narrative—to `[-1, 1]` for scene transforms. This guarantees that the vertical value crosses zero at the screen midpoint and reaches a real downward state near the bottom edge. Touch movement is ignored to prevent gesture conflict.
+
+The current pointer exponentially damps toward its target, producing weight rather than direct cursor locking. Horizontal movement reaches 16° yaw. Vertical movement is intentionally asymmetric: upward cursor travel reaches 15°, while downward travel reaches 21° with a slightly faster `7.6` damping response and a nonlinear early lift. The vertical sign follows the model's actual imported face orientation, so a bottom cursor points the face downward and exposes the lower extrusion plane. Downward translation is capped at `0.025` so the interaction reads as a pivot instead of a slide.
+
+Both rotation axes cross zero, so left/right and up/down movement reveal the corresponding physical sidewalls instead of preserving one fixed three-quarter view. Combined axes cover the full cursor circle, with a restrained diagonal roll. A low-intensity cool key follows the cursor without bleaching the lime face, while a fixed lime rear light separates the graphite extrusion. Pointer influence fades during the late scroll transition and recenters on pointer leave.

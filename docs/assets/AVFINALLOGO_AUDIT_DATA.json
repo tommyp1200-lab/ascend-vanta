@@ -1,0 +1,217 @@
+{
+  "source": "source-assets/models/AVFINALLOGO.glb",
+  "file_size_bytes": 73260236,
+  "sha256": "a0ff0f262e2e92b69107ad5cee040867203fb3f506ea93beaed00621541ab427",
+  "blender_version": "5.1.2",
+  "counts": {
+    "objects": 3,
+    "meshes": 1,
+    "vertices": 998961,
+    "edges": 2952873,
+    "faces": 1953990,
+    "triangles": 1953990,
+    "materials": 1,
+    "textures": 2,
+    "animations": 0,
+    "shape_keys": 0
+  },
+  "bounds": {
+    "min": [
+      -0.5,
+      -0.019236,
+      -0.306836
+    ],
+    "max": [
+      0.5,
+      0.019236,
+      0.306836
+    ],
+    "dimensions": [
+      1.0,
+      0.038472,
+      0.613672
+    ],
+    "depth_y": 0.038472
+  },
+  "materials": [
+    "pbr_material"
+  ],
+  "textures": [
+    {
+      "name": "Image_0",
+      "format": "png",
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "packed": true,
+      "source": "FILE",
+      "usages": [
+        {
+          "material": "pbr_material",
+          "node": "Image Texture.001",
+          "linked_inputs": [
+            "Separate Color:Color"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Image_1",
+      "format": "png",
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "packed": true,
+      "source": "FILE",
+      "usages": [
+        {
+          "material": "pbr_material",
+          "node": "Image Texture",
+          "linked_inputs": [
+            "Principled BSDF:Base Color"
+          ]
+        }
+      ]
+    }
+  ],
+  "uv_maps": {
+    "tmpgt9mrtzhobj": [
+      "UVMap"
+    ]
+  },
+  "animations": [],
+  "objects": [
+    {
+      "name": "Node_0",
+      "type": "EMPTY",
+      "parent": null,
+      "children": [
+        "world"
+      ],
+      "location": [
+        -0.009654,
+        0.005628,
+        -0.019615
+      ],
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.565963,
+        0.565963,
+        0.565963
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "origin_world": [
+        -0.009654,
+        0.005628,
+        -0.019615
+      ],
+      "hidden_viewport": false,
+      "hidden_render": false
+    },
+    {
+      "name": "tmpgt9mrtzhobj",
+      "type": "MESH",
+      "parent": "world",
+      "children": [],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        1.0,
+        0.038472,
+        0.613672
+      ],
+      "origin_world": [
+        -0.009654,
+        0.005628,
+        -0.019615
+      ],
+      "hidden_viewport": false,
+      "hidden_render": false
+    },
+    {
+      "name": "world",
+      "type": "EMPTY",
+      "parent": "Node_0",
+      "children": [
+        "tmpgt9mrtzhobj"
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "origin_world": [
+        -0.009654,
+        0.005628,
+        -0.019615
+      ],
+      "hidden_viewport": false,
+      "hidden_render": false
+    }
+  ],
+  "meshes": [
+    {
+      "object": "tmpgt9mrtzhobj",
+      "mesh": "Mesh_0",
+      "vertices": 998961,
+      "edges": 2952873,
+      "faces": 1953990,
+      "triangles": 1953990,
+      "materials": [
+        "pbr_material"
+      ],
+      "uv_maps": [
+        "UVMap"
+      ],
+      "shape_keys": [],
+      "non_manifold_edges": 43776,
+      "loose_vertices": 0,
+      "degenerate_faces": 3
+    }
+  ],
+  "geometry_checks": {
+    "non_manifold_edges": 43776,
+    "loose_vertices": 0,
+    "degenerate_faces": 3,
+    "duplicate_topology_signature_groups": [],
+    "hidden_objects": []
+  }
+}

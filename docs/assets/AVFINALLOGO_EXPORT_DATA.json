@@ -1,0 +1,109 @@
+{
+  "master": {
+    "file": "source-assets/models/blender/AVFINALLOGO_master.blend",
+    "triangles": 1953990,
+    "per_object": {
+      "A_Primary": 1034826,
+      "V_Primary": 919164
+    },
+    "materials": [
+      "MAT_AV_AscendLime",
+      "MAT_AV_BlackChrome",
+      "MAT_AV_BrushedMetal",
+      "MAT_AV_FaceDetail",
+      "MAT_AV_Graphite",
+      "MAT_AV_PearlWhite",
+      "MAT_AV_WireframeReference"
+    ],
+    "mesh_objects": [
+      "A_Primary",
+      "V_Primary"
+    ]
+  },
+  "tiers": {
+    "desktop": {
+      "file": "public/assets/models/av-logo-desktop.glb",
+      "target_triangles": 32000,
+      "triangles": 31998,
+      "per_object": {
+        "A_Primary": 16947,
+        "V_Primary": 15051
+      },
+      "file_size_bytes": 238248,
+      "compression": "KHR_draco_mesh_compression level 10 + quantized positions/normals",
+      "texture_compression": "embedded WebP 1024px quality 72",
+      "mesh_objects": [
+        "A_Primary",
+        "V_Primary"
+      ],
+      "materials": [
+        "MAT_AV_FaceDetail",
+        "MAT_AV_Graphite"
+      ],
+      "expected_draw_calls": 4
+    },
+    "tablet": {
+      "file": "public/assets/models/av-logo-tablet.glb",
+      "target_triangles": 18000,
+      "triangles": 17998,
+      "per_object": {
+        "A_Primary": 9532,
+        "V_Primary": 8466
+      },
+      "file_size_bytes": 151416,
+      "compression": "KHR_draco_mesh_compression level 10 + quantized positions/normals",
+      "texture_compression": "embedded WebP 768px quality 68",
+      "mesh_objects": [
+        "A_Primary",
+        "V_Primary"
+      ],
+      "materials": [
+        "MAT_AV_FaceDetail",
+        "MAT_AV_Graphite"
+      ],
+      "expected_draw_calls": 4
+    },
+    "mobile": {
+      "file": "public/assets/models/av-logo-mobile.glb",
+      "target_triangles": 9000,
+      "triangles": 8999,
+      "per_object": {
+        "A_Primary": 4766,
+        "V_Primary": 4233
+      },
+      "file_size_bytes": 91712,
+      "compression": "KHR_draco_mesh_compression level 10 + quantized positions/normals",
+      "texture_compression": "embedded WebP 512px quality 64",
+      "mesh_objects": [
+        "A_Primary",
+        "V_Primary"
+      ],
+      "materials": [
+        "MAT_AV_FaceDetail",
+        "MAT_AV_Graphite"
+      ],
+      "expected_draw_calls": 4
+    },
+    "low": {
+      "file": "public/assets/models/av-logo-low.glb",
+      "target_triangles": 4000,
+      "triangles": 3999,
+      "per_object": {
+        "A_Primary": 2118,
+        "V_Primary": 1881
+      },
+      "file_size_bytes": 53676,
+      "compression": "KHR_draco_mesh_compression level 10 + quantized positions/normals",
+      "texture_compression": "embedded WebP 256px quality 58",
+      "mesh_objects": [
+        "A_Primary",
+        "V_Primary"
+      ],
+      "materials": [
+        "MAT_AV_FaceDetail",
+        "MAT_AV_Graphite"
+      ],
+      "expected_draw_calls": 4
+    }
+  }
+}
