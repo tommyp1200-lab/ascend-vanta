@@ -5,7 +5,7 @@ import type { MutableRefObject, RefObject } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { HERO_PHASES, HERO_SCROLL } from "./heroTimelineConfig";
+import { HERO_PHASES } from "./heroTimelineConfig";
 import type { HeroQualityProfile } from "./heroTypes";
 import { useNarrativeCoordinator } from "@/components/narrative/NarrativeCoordinator";
 
@@ -42,9 +42,6 @@ export function useHeroScrollProgress(
         return;
       }
 
-      const viewportDistance =
-        quality.narrativeViewports * (reducedMotion ? HERO_SCROLL.reducedMotionScale : 1);
-
       if (reducedMotion) {
         progress.current = 1;
         gsap.set([heroContent.current, heroWordmark.current, heroVignette.current], {
@@ -61,10 +58,8 @@ export function useHeroScrollProgress(
           id: "ascend-hero-narrative",
           trigger: root.current,
           start: "top top",
-          end: () => `+=${window.innerHeight * viewportDistance}`,
+          end: () => `+=${Math.max(1, root.current!.offsetHeight - window.innerHeight)}`,
           scrub: true,
-          pin: stage.current,
-          pinSpacing: true,
           refreshPriority: 10,
           invalidateOnRefresh: true,
           onUpdate: (self) => {

@@ -295,11 +295,9 @@ function OrbLightWell({ runtime }: { runtime: HeroRuntimeRefs }) {
 export function AscendEditorialGalaxy({
   quality,
   runtime,
-  vantaEnabled,
 }: {
   quality: HeroQualityProfile;
   runtime: HeroRuntimeRefs;
-  vantaEnabled: boolean;
 }) {
   const groupRef = useRef<Group>(null);
   const orbGroupRef = useRef<Group>(null);
@@ -388,7 +386,7 @@ export function AscendEditorialGalaxy({
 
   return (
     <group ref={groupRef} position={EDITORIAL_GALAXY_POSITION} visible={false}>
-      {vantaEnabled ? <AscendVantaRobot runtime={runtime} /> : null}
+      <AscendVantaRobot runtime={runtime} />
       <group ref={orbGroupRef}>
         <OrbLightWell runtime={runtime} />
         <EditorialGalaxyLayer

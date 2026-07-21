@@ -11,17 +11,17 @@ export function AscendHeroCanvas({
   quality,
   runtime,
   active,
-  vantaEnabled,
+  ready,
 }: {
   quality: HeroQualityProfile;
   runtime: HeroRuntimeRefs;
   active: boolean;
-  vantaEnabled: boolean;
+  ready: boolean;
 }) {
   return (
     <Canvas
       aria-hidden="true"
-      className="hero-canvas"
+      className={`hero-canvas${ready ? " is-ready" : ""}`}
       dpr={[1, quality.dpr]}
       frameloop={active ? "always" : "demand"}
       camera={{ fov: 42, near: 0.1, far: 40, position: [0, 0, 6.65] }}
@@ -47,7 +47,6 @@ export function AscendHeroCanvas({
           key={quality.name}
           quality={quality}
           runtime={runtime}
-          vantaEnabled={vantaEnabled}
         />
       </Suspense>
     </Canvas>

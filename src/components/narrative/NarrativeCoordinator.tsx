@@ -343,7 +343,6 @@ export function NarrativeCoordinator({ children }: { children: ReactNode }) {
         requestRefresh("viewport");
       }, 140);
     };
-    const onAssetsReady = () => requestRefresh("hero-assets");
     const onPageShow = () => requestRefresh("pageshow");
     const onPageHide = () => writeState();
     const onVisibility = () => {
@@ -354,7 +353,6 @@ export function NarrativeCoordinator({ children }: { children: ReactNode }) {
     window.addEventListener("resize", onResize, { passive: true });
     window.addEventListener("orientationchange", onResize, { passive: true });
     window.visualViewport?.addEventListener("resize", onResize, { passive: true });
-    window.addEventListener("hero-assets-ready", onAssetsReady);
     window.addEventListener("pageshow", onPageShow);
     window.addEventListener("pagehide", onPageHide);
     document.addEventListener("visibilitychange", onVisibility);
@@ -378,7 +376,6 @@ export function NarrativeCoordinator({ children }: { children: ReactNode }) {
       window.removeEventListener("resize", onResize);
       window.removeEventListener("orientationchange", onResize);
       window.visualViewport?.removeEventListener("resize", onResize);
-      window.removeEventListener("hero-assets-ready", onAssetsReady);
       window.removeEventListener("pageshow", onPageShow);
       window.removeEventListener("pagehide", onPageHide);
       document.removeEventListener("visibilitychange", onVisibility);

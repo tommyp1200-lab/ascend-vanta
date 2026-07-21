@@ -3,11 +3,9 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { CSSProperties } from "react";
 import { AscendHeroWordmark } from "./AscendHeroWordmark";
 import { HeroContent } from "./HeroContent";
 import { HeroScrollCue } from "./HeroScrollCue";
-import { HERO_PHASES, HERO_SCROLL } from "./heroTimelineConfig";
 import type { HeroRuntimeRefs } from "./heroTypes";
 import { useHeroPointer } from "./useHeroPointer";
 import { useHeroScrollProgress } from "./useHeroScrollProgress";
@@ -65,7 +63,7 @@ export function AscendHero() {
   const vantaGreetingComplete = useRef(false);
   const reducedMotionRef = useRef(false);
   const [webGL, setWebGL] = useState<boolean | null>(null);
-  const [vantaEnabled, setVantaEnabled] = useState(false);
+  const [canvasReady, setCanvasReady] = useState(false);
   const { pointer, handlers } = useHeroPointer();
   const { quality, reducedMotion, documentVisible, activeChapterId } =
     useNarrativeCoordinator();
@@ -86,31 +84,74 @@ export function AscendHero() {
   }, [reducedMotion]);
 
   useEffect(() => {
-    const initializationFrame = window.requestAnimationFrame(() => {
-      const params = new URLSearchParams(window.location.search);
-      const forcedFallback = process.env.NODE_ENV !== "production" && params.get("webgl") === "0";
-      setWebGL(forcedFallback ? false : supportsWebGL());
-    });
-    return () => window.cancelAnimationFrame(initializationFrame);
-  }, []);
-
-  useEffect(() => {
-    const target = document.querySelector<HTMLElement>(".orb-evolution-sequence");
-    if (!target || !("IntersectionObserver" in window)) {
-      const fallbackFrame = window.requestAnimationFrame(() => setVantaEnabled(true));
+    const params = new URLSearchParams(window.location.search);
+    const forcedFallback = process.env.NODE_ENV !== "production" && params.get("webgl") === "0";
+    if (forcedFallback || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const fallbackFrame = window.requestAnimationFrame(() => setWebGL(false));
       return () => window.cancelAnimationFrame(fallbackFrame);
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        setVantaEnabled(true);
-        observer.disconnect();
-      },
-      { rootMargin: "180% 0px" },
-    );
-    observer.observe(target);
-    return () => observer.disconnect();
+    const initialize = () => setWebGL(supportsWebGL());
+    if (window.matchMedia("(max-width: 767px)").matches) {
+      const interactionEvents = ["pointerdown", "touchstart", "wheel", "keydown"] as const;
+      const initializeOnInteraction = () => {
+        interactionEvents.forEach((event) =>
+          window.removeEventListener(event, initializeOnInteraction),
+        );
+        initialize();
+      };
+      interactionEvents.forEach((event) =>
+        window.addEventListener(event, initializeOnInteraction, { passive: true, once: true }),
+      );
+      return () =>
+        interactionEvents.forEach((event) =>
+          window.removeEventListener(event, initializeOnInteraction),
+        );
+    }
+
+    let idleCallback = 0;
+    const initializationDelay = window.setTimeout(() => {
+      if ("requestIdleCallback" in window) {
+        idleCallback = window.requestIdleCallback(initialize, { timeout: 900 });
+      } else {
+        initialize();
+      }
+    }, 700);
+    return () => {
+      window.clearTimeout(initializationDelay);
+      if (idleCallback) window.cancelIdleCallback(idleCallback);
+    };
+  }, []);
+
+  useEffect(() => {
+    let warmupTimer = 0;
+    let warmupFrame = 0;
+    const markCanvasReady = () => {
+      warmupTimer = window.setTimeout(() => {
+        galaxyProgress.current = 0.002;
+        shapeProgress.current = 0.05;
+        let remainingFrames = 4;
+        const finishWarmup = () => {
+          remainingFrames -= 1;
+          if (remainingFrames > 0) {
+            warmupFrame = window.requestAnimationFrame(finishWarmup);
+            return;
+          }
+          galaxyProgress.current = 0;
+          shapeProgress.current = 0;
+          setCanvasReady(true);
+        };
+        warmupFrame = window.requestAnimationFrame(finishWarmup);
+      }, 900);
+    };
+    window.addEventListener("hero-assets-ready", markCanvasReady);
+    return () => {
+      window.removeEventListener("hero-assets-ready", markCanvasReady);
+      window.clearTimeout(warmupTimer);
+      window.cancelAnimationFrame(warmupFrame);
+      galaxyProgress.current = 0;
+      shapeProgress.current = 0;
+    };
   }, []);
 
   const scrollProgress = useHeroScrollProgress(
@@ -138,22 +179,8 @@ export function AscendHero() {
     }),
     [pointer, scrollProgress, visible],
   );
-  const siteStyle = useMemo(
-    () => {
-      const narrativeDistance =
-        quality.narrativeViewports * (reducedMotion ? HERO_SCROLL.reducedMotionScale : 1);
-      const missionOverlap =
-        1 + narrativeDistance * (1 - HERO_PHASES.particleDissolveStart);
-
-      return {
-        "--hero-mission-overlap": `${missionOverlap * -100}svh`,
-      } as CSSProperties;
-    },
-    [quality.narrativeViewports, reducedMotion],
-  );
-
   return (
-    <main className="site-shell" style={siteStyle} {...handlers}>
+    <main className="site-shell" {...handlers}>
       <a className="skip-link" href="#mission">
         Skip to portfolio content
       </a>
@@ -163,7 +190,6 @@ export function AscendHero() {
         alt="Ascend Vanta Portfolio"
         width={414}
         height={74}
-        priority
         unoptimized
         sizes="(max-width: 463px) calc(100vw - 50px), 414px"
       />
@@ -172,7 +198,7 @@ export function AscendHero() {
           quality={quality}
           runtime={runtime}
           active={canvasIsActive}
-          vantaEnabled={vantaEnabled}
+          ready={canvasReady}
         />
       ) : null}
       <section
@@ -182,16 +208,25 @@ export function AscendHero() {
         data-reduced-motion={reducedMotion ? "true" : "false"}
       >
         <div ref={stageRef} className="hero-stage">
-          {webGL === false ? (
-            <Image
-              className="hero-fallback"
+          <picture
+            className={`hero-fallback${canvasReady ? " is-superseded" : ""}`}
+          >
+            <source
+              media="(max-width: 767px)"
+              srcSet="/assets/images/av-logo-fallbacks/hero-mobile-entry-480.webp 480w, /assets/images/av-logo-fallbacks/hero-mobile-entry.webp 720w"
+              sizes="99vw"
+              width={480}
+              height={640}
+            />
+            <img
               src="/assets/images/av-logo-fallbacks/hero-desktop.webp"
               alt=""
-              fill
-              priority
-              sizes="100vw"
+              width={2400}
+              height={1600}
+              decoding="async"
+              fetchPriority="high"
             />
-          ) : null}
+          </picture>
           <div ref={heroVignetteRef} className="hero-vignette" aria-hidden="true" />
           <HeroContent ref={heroContentRef} />
           <AscendHeroWordmark wordmarkRef={heroWordmarkRef} />

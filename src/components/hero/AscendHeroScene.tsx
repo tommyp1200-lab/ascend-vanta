@@ -22,11 +22,9 @@ import type { HeroQualityProfile, HeroRuntimeRefs } from "./heroTypes";
 export function AscendHeroScene({
   quality,
   runtime,
-  vantaEnabled,
 }: {
   quality: HeroQualityProfile;
   runtime: HeroRuntimeRefs;
-  vantaEnabled: boolean;
 }) {
   useFrame(({ camera }, delta) => {
     const pointer = runtime.pointer.current;
@@ -59,7 +57,6 @@ export function AscendHeroScene({
       <AscendEditorialGalaxy
         quality={quality}
         runtime={runtime}
-        vantaEnabled={vantaEnabled}
       />
       <AscendRockField count={quality.rockCount} runtime={runtime} />
       <group position={[0, 0.06, 0]}>

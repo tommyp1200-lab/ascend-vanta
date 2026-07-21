@@ -16,7 +16,6 @@ export function AscendHeroWordmark({
         alt="ASCEND VANTA"
         width={2400}
         height={520}
-        priority
         unoptimized
         sizes="(max-width: 767px) 96vw, 92vw"
       />

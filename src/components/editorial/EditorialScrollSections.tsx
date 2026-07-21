@@ -1,8 +1,9 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element -- Sequential data-src activation prevents five overlapping system panels from decoding in one scroll frame. */
+
 import { useEffect, useRef } from "react";
 import type { CSSProperties, MutableRefObject } from "react";
-import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -178,6 +179,53 @@ export function EditorialScrollSections({
     requestRefresh,
     updateNarrativeState,
   } = useNarrativeCoordinator();
+
+  useEffect(() => {
+    const horizontal = horizontalRef.current;
+    if (!horizontal) return;
+    const images = Array.from(
+      horizontal.querySelectorAll<HTMLImageElement>("img[data-system-src]"),
+    );
+    let cancelled = false;
+    let activeImage: HTMLImageElement | null = null;
+    const loadImage = (index: number) => {
+      if (cancelled || index >= images.length) return;
+      const image = images[index];
+      const source = image.dataset.systemSrc;
+      if (!source) return;
+      activeImage = image;
+      const advance = () => {
+        image.onload = null;
+        image.onerror = null;
+        if (!cancelled) window.requestAnimationFrame(() => loadImage(index + 1));
+      };
+      image.onload = advance;
+      image.onerror = advance;
+      image.src = source;
+    };
+    const activate = () => loadImage(0);
+    if (!("IntersectionObserver" in window)) {
+      const fallbackFrame = globalThis.requestAnimationFrame(activate);
+      return () => globalThis.cancelAnimationFrame(fallbackFrame);
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        activate();
+        observer.disconnect();
+      },
+      { rootMargin: "600% 0px" },
+    );
+    observer.observe(horizontal);
+    return () => {
+      cancelled = true;
+      observer.disconnect();
+      if (activeImage) {
+        activeImage.onload = null;
+        activeImage.onerror = null;
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -2332,13 +2380,13 @@ export function EditorialScrollSections({
               aria-label="Adobe Creative Suite connected workflow"
             >
               <figure className="creative-suite-frame">
-                <Image
+                <img
                   className="creative-suite-image"
-                  src="/assets/images/creative-suite/ascend-vanta-adobe-creative-suite.webp"
+                  data-system-src="/assets/images/creative-suite/ascend-vanta-adobe-creative-suite.webp"
                   alt="Adobe Creative Suite applications connected to a central Creative Cloud hub"
                   width={1672}
                   height={941}
-                  sizes="(max-width: 767px) 96vw, 94vw"
+                  decoding="async"
                 />
                 <span className="creative-suite-flow" aria-hidden="true">
                   <span className="creative-suite-line-bed" />
@@ -2421,13 +2469,13 @@ export function EditorialScrollSections({
               aria-label="Connected frontend engineering stack"
             >
               <figure className="creative-suite-frame frontend-stack-frame">
-                <Image
+                <img
                   className="creative-suite-image frontend-stack-image"
-                  src="/assets/images/frontend-stack/ascend-vanta-frontend-stack.webp"
+                  data-system-src="/assets/images/frontend-stack/ascend-vanta-frontend-stack.webp"
                   alt="HTML, CSS, JavaScript, TypeScript, React, Next.js, Tailwind CSS, GSAP, Lenis, and Three.js connected to a central frontend engineering hub"
                   width={1672}
                   height={941}
-                  sizes="(max-width: 767px) 96vw, 94vw"
+                  decoding="async"
                 />
                 <span
                   className="creative-suite-flow frontend-stack-flow"
@@ -2486,13 +2534,13 @@ export function EditorialScrollSections({
               aria-label="Connected backend and automation stack"
             >
               <figure className="creative-suite-frame backend-automation-frame">
-                <Image
+                <img
                   className="creative-suite-image backend-automation-image"
-                  src="/assets/images/backend-automation/ascend-vanta-backend-automation.webp"
+                  data-system-src="/assets/images/backend-automation/ascend-vanta-backend-automation.webp"
                   alt="Python, Flask, Node.js, APIs, SQL, Supabase, Firebase, Zapier, Make, and n8n connected to a central backend automation hub"
                   width={1672}
                   height={941}
-                  sizes="(max-width: 767px) 96vw, 94vw"
+                  decoding="async"
                 />
                 <span
                   className="creative-suite-flow backend-automation-flow"
@@ -2551,13 +2599,13 @@ export function EditorialScrollSections({
               aria-label="Connected search visibility and analytics ecosystem"
             >
               <figure className="creative-suite-frame search-visibility-frame">
-                <Image
+                <img
                   className="creative-suite-image search-visibility-image"
-                  src="/assets/images/search-visibility/ascend-vanta-search-visibility.webp"
+                  data-system-src="/assets/images/search-visibility/ascend-vanta-search-visibility.webp"
                   alt="Rank Math SEO, Google Analytics, Google Search Console, Tag Manager, Local SEO, Looker Studio, AEO, Microsoft Clarity, Hotjar, Schema Markup, and GEO connected to a central search visibility hub"
                   width={1672}
                   height={941}
-                  sizes="(max-width: 767px) 96vw, 94vw"
+                  decoding="async"
                 />
                 <span
                   className="creative-suite-flow search-visibility-flow"
@@ -2613,13 +2661,13 @@ export function EditorialScrollSections({
               aria-label="Major social media platforms connected to the Ascend Vanta presence hub"
             >
               <figure className="creative-suite-frame social-media-frame">
-                <Image
+                <img
                   className="creative-suite-image social-media-image"
-                  src="/assets/images/social-media/ascend-vanta-social-media-platforms.webp"
+                  data-system-src="/assets/images/social-media/ascend-vanta-social-media-platforms.webp"
                   alt="Facebook, Instagram, TikTok, YouTube, LinkedIn, Pinterest, Threads, Discord, X, Reddit, Snapchat, Telegram, and WhatsApp connected to the Ascend Vanta social presence hub"
                   width={1536}
                   height={1024}
-                  sizes="(max-width: 767px) 96vw, 94vw"
+                  decoding="async"
                 />
                 <span
                   className="creative-suite-flow social-media-flow"

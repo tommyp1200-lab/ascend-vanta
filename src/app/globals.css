@@ -1,13 +1,5 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: "Black Rush";
-  src: url("/assets/fonts/Blackrush.ttf") format("truetype");
-  font-display: swap;
-  font-style: normal;
-  font-weight: 400;
-}
-
 @theme {
   --color-vanta: #02040a;
   --color-graphite: #12161d;
@@ -65,6 +57,8 @@ a {
 }
 
 .site-shell {
+  --hero-scroll-distance: 245svh;
+  --hero-mission-overlap: -193.1svh;
   position: relative;
   width: 100%;
   background: var(--vanta);
@@ -74,11 +68,13 @@ a {
 .hero-narrative {
   position: relative;
   width: 100%;
+  height: calc(100svh + var(--hero-scroll-distance));
   background: transparent;
 }
 
 .hero-stage {
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 1;
   width: 100%;
   height: 100svh;
@@ -103,10 +99,30 @@ a {
   width: 100%;
   height: 100svh;
   pointer-events: none !important;
+  opacity: 0;
+  transition: opacity 420ms ease;
+}
+
+.hero-canvas.is-ready {
+  opacity: 1;
 }
 
 .hero-fallback {
   z-index: 1;
+  display: block;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 420ms ease;
+}
+
+.hero-fallback.is-superseded {
+  opacity: 0;
+}
+
+.hero-fallback img {
+  width: 99%;
+  height: 99%;
+  margin: 0.5%;
   object-fit: cover;
 }
 
@@ -1821,6 +1837,11 @@ a {
 }
 
 @media (max-width: 767px) {
+  .site-shell {
+    --hero-scroll-distance: 160svh;
+    --hero-mission-overlap: -160.8svh;
+  }
+
   .prompt-worlds-gallery {
     min-height: max(42rem, 100svh);
   }
@@ -1955,6 +1976,56 @@ a {
   .about-systems__closing h3 {
     font-size: clamp(3.4rem, 15vw, 5.8rem);
     line-height: 0.84;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .site-shell {
+    --hero-scroll-distance: 195svh;
+    --hero-mission-overlap: -174.1svh;
+  }
+}
+
+@media (min-width: 1440px) {
+  .site-shell {
+    --hero-scroll-distance: 265svh;
+    --hero-mission-overlap: -200.7svh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-shell {
+    --hero-scroll-distance: 127.4svh;
+    --hero-mission-overlap: -148.412svh;
+  }
+
+  .hero-canvas {
+    transition: none;
+  }
+
+  .hero-fallback {
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 767px) {
+  .site-shell {
+    --hero-scroll-distance: 83.2svh;
+    --hero-mission-overlap: -131.616svh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (min-width: 768px) and (max-width: 1023px) {
+  .site-shell {
+    --hero-scroll-distance: 101.4svh;
+    --hero-mission-overlap: -138.532svh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (min-width: 1440px) {
+  .site-shell {
+    --hero-scroll-distance: 137.8svh;
+    --hero-mission-overlap: -152.364svh;
   }
 }
 

@@ -69,6 +69,7 @@ export function EditorialMagazineLibrary() {
   useNarrativeChapter(sectionRef, "editorial-library", 34);
   const [activeIssueIndex, setActiveIssueIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
+  const [libraryNear, setLibraryNear] = useState(false);
   const [turn, setTurn] = useState<{ direction: TurnDirection; target: number } | null>(null);
   const activeIssue = PUBLICATIONS[activeIssueIndex];
   const basePage = turn?.target ?? currentPage;
@@ -76,6 +77,35 @@ export function EditorialMagazineLibrary() {
   const canGoNext = currentPage < activeIssue.pages.length - 1 && !turn;
 
   useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const activate = () => {
+      setLibraryNear(true);
+      const font = new FontFace("Black Rush", "url(/assets/fonts/Blackrush.ttf)", {
+        style: "normal",
+        weight: "400",
+        display: "swap",
+      });
+      void font.load().then((loaded) => document.fonts.add(loaded)).catch(() => undefined);
+    };
+    if (!("IntersectionObserver" in window)) {
+      const fallbackFrame = globalThis.requestAnimationFrame(activate);
+      return () => globalThis.cancelAnimationFrame(fallbackFrame);
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        activate();
+        observer.disconnect();
+      },
+      { rootMargin: "200% 0px" },
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!libraryNear) return;
     const preloadSources = new Set<string>();
     PUBLICATIONS.forEach((publication) => preloadSources.add(publication.pages[0]));
     [-1, 1].forEach((offset) => {
@@ -88,7 +118,7 @@ export function EditorialMagazineLibrary() {
       image.decoding = "async";
       image.src = source;
     });
-  }, [activeIssue, currentPage]);
+  }, [activeIssue, currentPage, libraryNear]);
 
   const turnPage = useCallback(
     (direction: TurnDirection) => {
@@ -199,7 +229,6 @@ export function EditorialMagazineLibrary() {
                   alt={`${activeIssue.title}, page ${basePage + 1} of ${activeIssue.pages.length}`}
                   fill
                   unoptimized
-                  priority={activeIssueIndex === 0 && basePage === 0}
                   sizes="(max-width: 767px) 84vw, (max-width: 1180px) 52vw, 43vw"
                 />
 

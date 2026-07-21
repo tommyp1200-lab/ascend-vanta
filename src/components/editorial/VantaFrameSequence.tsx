@@ -411,7 +411,7 @@ export function VantaFrameSequence({
       <h2 id="vanta-frame-sequence-title" className="sr-only">
         Vanta mechanical transformation
       </h2>
-      {staticPresentation ? (
+      {staticPresentation && near ? (
         <NextImage
           className="vanta-frame-sequence__reduced"
           src={frameSource(0)}

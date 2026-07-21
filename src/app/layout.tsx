@@ -115,6 +115,24 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="preload"
+          as="image"
+          href="/assets/images/av-logo-fallbacks/hero-mobile-entry-480.webp"
+          imageSrcSet="/assets/images/av-logo-fallbacks/hero-mobile-entry-480.webp 480w, /assets/images/av-logo-fallbacks/hero-mobile-entry.webp 720w"
+          imageSizes="99vw"
+          media="(max-width: 767px)"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/assets/images/av-logo-fallbacks/hero-desktop.webp"
+          media="(min-width: 768px)"
+          fetchPriority="high"
+        />
+      </head>
       <body className={`${spaceGrotesk.variable} ${spaceGrotesk.className}`}>
         {children}
         <script
