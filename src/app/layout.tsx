@@ -5,6 +5,8 @@ import {
   SITE_DESCRIPTION,
   SITE_NAME,
   SITE_TITLE,
+  PERSON_ID,
+  WEBSITE_ID,
 } from "@/lib/siteMetadata";
 import "./globals.css";
 
@@ -18,7 +20,7 @@ const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
-  title: SITE_TITLE,
+  title: { default: SITE_TITLE, template: "%s | Ascend Vanta" },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
   authors: [{ name: "Tommy Pisano" }],
@@ -75,7 +77,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": `${siteUrl}#website`,
+        "@id": WEBSITE_ID,
         url: siteUrl.toString(),
         name: SITE_NAME,
         description: SITE_DESCRIPTION,
@@ -83,9 +85,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       },
       {
         "@type": "Person",
-        "@id": `${siteUrl}#tommy-pisano`,
+        "@id": PERSON_ID,
         name: "Tommy Pisano",
-        url: siteUrl.toString(),
+        url: new URL("/about", siteUrl).toString(),
         jobTitle: "Senior UX/UI Designer, Creative Technologist, and Growth Systems Architect",
         knowsAbout: [
           "UX/UI design",
@@ -100,39 +102,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           "social media management",
         ],
       },
-      {
-        "@type": "CollectionPage",
-        "@id": `${siteUrl}#editorial-library`,
-        name: "Ascend Intelligence Editorial Library",
-        hasPart: [
-          "SEO, GEO & AI Search Survival Guide",
-          "Content Is Not the Strategy",
-          "LinkedIn Featured Framework",
-        ].map((name) => ({ "@type": "CreativeWork", name })),
-      },
     ],
   };
 
   return (
     <html lang="en">
-      <head>
-        <link
-          rel="preload"
-          as="image"
-          href="/assets/images/av-logo-fallbacks/hero-mobile-entry-480.webp"
-          imageSrcSet="/assets/images/av-logo-fallbacks/hero-mobile-entry-480.webp 480w, /assets/images/av-logo-fallbacks/hero-mobile-entry.webp 720w"
-          imageSizes="99vw"
-          media="(max-width: 767px)"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="/assets/images/av-logo-fallbacks/hero-desktop.webp"
-          media="(min-width: 768px)"
-          fetchPriority="high"
-        />
-      </head>
       <body className={`${spaceGrotesk.variable} ${spaceGrotesk.className}`}>
         {children}
         <script

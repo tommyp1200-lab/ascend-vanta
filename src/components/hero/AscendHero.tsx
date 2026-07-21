@@ -11,6 +11,7 @@ import { useHeroPointer } from "./useHeroPointer";
 import { useHeroScrollProgress } from "./useHeroScrollProgress";
 import { VantaFrameSequence } from "@/components/editorial/VantaFrameSequence";
 import { useNarrativeCoordinator } from "@/components/narrative/NarrativeCoordinator";
+import { HomepageAuthorityLinks } from "@/components/authority/HomepageAuthorityLinks";
 
 const DynamicHeroCanvas = dynamic(
   () => import("./AscendHeroCanvas").then((module) => module.AscendHeroCanvas),
@@ -242,6 +243,7 @@ export function AscendHero() {
       <DynamicEditorialMagazineLibrary />
       <DynamicPromptWorldsGallery />
       <DynamicAboutSystemsSection />
+      <HomepageAuthorityLinks />
     </main>
   );
 }

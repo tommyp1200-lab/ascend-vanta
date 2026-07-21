@@ -12,3 +12,10 @@ export function getSiteUrl() {
     return new URL(PRODUCTION_SITE_URL);
   }
 }
+
+export function absoluteUrl(path = "/") {
+  return new URL(path, getSiteUrl()).toString();
+}
+
+export const WEBSITE_ID = `${PRODUCTION_SITE_URL}/#website`;
+export const PERSON_ID = `${PRODUCTION_SITE_URL}/about/#person`;
