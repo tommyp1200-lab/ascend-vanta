@@ -4,7 +4,7 @@ import { forwardRef } from "react";
 
 export const HeroContent = forwardRef<HTMLDivElement>(function HeroContent(_, ref) {
   return (
-    <div ref={ref} className="hero-content" data-hero-animated>
+    <div ref={ref} className="hero-content">
       <section
         className="hero-message hero-message--left"
         role="region"

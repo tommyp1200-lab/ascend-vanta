@@ -12,7 +12,6 @@ import { useHeroScrollProgress } from "./useHeroScrollProgress";
 import { VantaFrameSequence } from "@/components/editorial/VantaFrameSequence";
 import { useNarrativeCoordinator } from "@/components/narrative/NarrativeCoordinator";
 import { HomepageAuthorityLinks } from "@/components/authority/HomepageAuthorityLinks";
-import { AscendPreloader } from "@/components/boot/AscendPreloader";
 
 const DynamicHeroCanvas = dynamic(
   () => import("./AscendHeroCanvas").then((module) => module.AscendHeroCanvas),
@@ -53,7 +52,6 @@ function supportsWebGL(): boolean {
 }
 
 export function AscendHero() {
-  const shellRef = useRef<HTMLElement>(null);
   const rootRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const heroWordmarkRef = useRef<HTMLHeadingElement>(null);
@@ -183,26 +181,16 @@ export function AscendHero() {
     [pointer, scrollProgress, visible],
   );
   return (
-    <main
-      ref={shellRef}
-      className="site-shell"
-      data-ascend-app
-      aria-busy="true"
-      {...handlers}
-    >
+    <main className="site-shell" {...handlers}>
       <a className="skip-link" href="#mission">
         Skip to portfolio content
       </a>
-      <AscendPreloader />
       <Image
         className="hero-corner-logo"
-        data-hero-animated
-        data-hero-first-scene
         src="/assets/brand/ascend-vanta-corner-logo.png"
         alt="Ascend Vanta Portfolio"
         width={414}
         height={74}
-        loading="eager"
         unoptimized
         sizes="(max-width: 463px) calc(100vw - 50px), 414px"
       />
@@ -223,8 +211,6 @@ export function AscendHero() {
         <div ref={stageRef} className="hero-stage">
           <picture
             className={`hero-fallback${canvasReady ? " is-superseded" : ""}`}
-            data-hero-animated
-            data-hero-first-scene
           >
             <source
               media="(max-width: 767px)"
@@ -239,14 +225,10 @@ export function AscendHero() {
               width={2400}
               height={1600}
               decoding="async"
-              loading="eager"
+              fetchPriority="high"
             />
           </picture>
-          <div
-            ref={heroVignetteRef}
-            className="hero-vignette"
-            aria-hidden="true"
-          />
+          <div ref={heroVignetteRef} className="hero-vignette" aria-hidden="true" />
           <HeroContent ref={heroContentRef} />
           <AscendHeroWordmark wordmarkRef={heroWordmarkRef} />
           <HeroScrollCue />

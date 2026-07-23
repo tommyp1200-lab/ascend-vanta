@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import type { RefObject } from "react";
 
 export function AscendHeroWordmark({
@@ -8,17 +9,17 @@ export function AscendHeroWordmark({
   wordmarkRef: RefObject<HTMLHeadingElement | null>;
 }) {
   return (
-    <h1 ref={wordmarkRef} className="hero-wordmark-lockup" data-hero-animated>
+    <h1 ref={wordmarkRef} className="hero-wordmark-lockup">
       <span className="sr-only">Ascend Vanta — Tommy Pisano’s creative technology and growth systems portfolio</span>
-      <svg
+      <Image
         className="hero-wordmark-image"
-        viewBox="0 0 2400 520"
-        preserveAspectRatio="xMidYMid meet"
-        aria-hidden="true"
-        focusable="false"
-      >
-        <use href="/assets/wordmark/ascend-vanta-wordmark.svg#ascend-vanta-wordmark" />
-      </svg>
+        src="/assets/wordmark/ascend-vanta-wordmark.svg"
+        alt=""
+        width={2400}
+        height={520}
+        unoptimized
+        sizes="(max-width: 767px) 96vw, 92vw"
+      />
       <svg
         className="hero-wordmark-signal"
         viewBox="0 0 2400 520"
