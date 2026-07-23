@@ -42,6 +42,15 @@ export function useHeroScrollProgress(
         return;
       }
 
+      const markMotionReady = () => {
+        document.documentElement.dataset.ascendHeroMotionReady = "true";
+        window.dispatchEvent(
+          new CustomEvent("ascend:hero-motion-ready", {
+            detail: { source: "hero-scroll-progress" },
+          }),
+        );
+      };
+
       if (reducedMotion) {
         progress.current = 1;
         gsap.set([heroContent.current, heroWordmark.current, heroVignette.current], {
@@ -49,7 +58,10 @@ export function useHeroScrollProgress(
           autoAlpha: 1,
         });
         updateNarrativeState({ chapterId: "hero-statement", localProgress: 1 });
-        return;
+        markMotionReady();
+        return () => {
+          delete document.documentElement.dataset.ascendHeroMotionReady;
+        };
       }
 
       const timeline = gsap.timeline({
@@ -238,8 +250,11 @@ export function useHeroScrollProgress(
         HERO_PHASES.particleDissolveStart - 0.05,
       );
       timeline.to({}, { duration: 1 }, 0);
+      timeline.progress(0, true);
+      markMotionReady();
 
       return () => {
+        delete document.documentElement.dataset.ascendHeroMotionReady;
         unregister.forEach((cleanup) => cleanup());
       };
     },

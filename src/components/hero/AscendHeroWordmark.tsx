@@ -9,7 +9,7 @@ export function AscendHeroWordmark({
   wordmarkRef: RefObject<HTMLHeadingElement | null>;
 }) {
   return (
-    <h1 ref={wordmarkRef} className="hero-wordmark-lockup">
+    <h1 ref={wordmarkRef} className="hero-wordmark-lockup" data-hero-animated>
       <span className="sr-only">Ascend Vanta — Tommy Pisano’s creative technology and growth systems portfolio</span>
       <Image
         className="hero-wordmark-image"

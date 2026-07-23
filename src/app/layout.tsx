@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Space_Grotesk } from "next/font/google";
+import Script from "next/script";
 import {
   getSiteUrl,
   SITE_DESCRIPTION,
@@ -21,8 +22,18 @@ const spaceGrotesk = Space_Grotesk({
 
 const siteUrl = getSiteUrl();
 const initialFrameStyles =
-  "html,body,.site-shell{max-width:100%;overflow-x:clip;background:#02040a;color:#f4f7f2}" +
-  "img,svg,video,canvas,figure{max-width:100%}";
+  "html,body,.site-shell{max-width:100%;overflow-x:clip;background:#05070a;color:#f4f7f2}" +
+  "img,svg,video,canvas,figure{max-width:100%}" +
+  "html[data-ascend-boot=loading] body,html[data-ascend-boot=ready] body{overflow:hidden}" +
+  "html[data-ascend-boot=loading] [data-hero-animated],html[data-ascend-boot=loading] .hero-canvas{visibility:hidden!important;opacity:0!important}" +
+  ".ascend-preloader{position:fixed;z-index:2147483000;inset:0;display:grid;overflow:hidden;place-items:center;background:#05070a;color:#f4f7f2;isolation:isolate}" +
+  "html[data-ascend-boot=emergency] .ascend-preloader{display:none!important}" +
+  "@keyframes ascendEmergencyUnlock{to{overflow-y:auto}}" +
+  "@keyframes ascendEmergencyReveal{to{visibility:visible;opacity:1}}" +
+  "@keyframes ascendEmergencyHide{to{visibility:hidden;opacity:0;pointer-events:none}}" +
+  "html[data-ascend-boot=loading] body{animation:ascendEmergencyUnlock 0s 4.25s forwards}" +
+  "html[data-ascend-boot=loading] [data-hero-animated]{animation:ascendEmergencyReveal 0s 4.25s forwards}" +
+  "html[data-ascend-boot=loading] .ascend-preloader{animation:ascendEmergencyHide 0s 4.25s forwards}";
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
@@ -115,20 +126,34 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html
       lang="en"
-      style={{ overflowX: "clip", background: "#02040a", colorScheme: "dark" }}
+      data-ascend-boot="loading"
+      style={{ overflowX: "clip", background: "#05070a", colorScheme: "dark" }}
     >
       <head>
         <style>{initialFrameStyles}</style>
+        <Script src="/assets/js/ascend-boot.js" strategy="beforeInteractive" />
       </head>
       <body
         className={`${spaceGrotesk.variable} ${spaceGrotesk.className}`}
         style={{
           margin: 0,
           overflowX: "clip",
-          background: "#02040a",
+          background: "#05070a",
           color: "#f4f7f2",
         }}
       >
+        <noscript>
+          <style>{`
+            html[data-ascend-boot="loading"] body { overflow: auto !important; }
+            html[data-ascend-boot="loading"] .ascend-preloader { display: none !important; }
+            html[data-ascend-boot="loading"] [data-hero-animated] {
+              visibility: visible !important;
+              opacity: 1 !important;
+              transform: none !important;
+              animation: none !important;
+            }
+          `}</style>
+        </noscript>
         {children}
         <GoogleAnalytics />
         <StructuredData data={structuredData} />
