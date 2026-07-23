@@ -139,16 +139,38 @@ function VisualCharacters({
   className: string;
   whiteCharacterCount?: number;
 }) {
+  const words = text.split(" ");
+
   return (
-    <span aria-hidden="true">
-      {Array.from(text).map((character, index) => (
-        <span
-          key={`${character}-${index}`}
-          className={`${className}${index < whiteCharacterCount ? " mission-title-char--white" : ""}`}
-        >
-          {character === " " ? "\u00a0" : character}
-        </span>
-      ))}
+    <span className="visual-characters" aria-hidden="true">
+      {words.map((word, wordIndex) => {
+        const wordStartIndex = words
+          .slice(0, wordIndex)
+          .reduce((offset, previousWord) => offset + previousWord.length + 1, 0);
+
+        return (
+          <span className="visual-word" key={`${word}-${wordIndex}`}>
+            {wordIndex > 0 ? (
+              <span
+                className={`${className}${wordStartIndex - 1 < whiteCharacterCount ? " mission-title-char--white" : ""}`}
+              >
+                {"\u00a0"}
+              </span>
+            ) : null}
+            {Array.from(word).map((character, index) => {
+              const sourceIndex = wordStartIndex + index;
+              return (
+                <span
+                  key={`${character}-${sourceIndex}`}
+                  className={`${className}${sourceIndex < whiteCharacterCount ? " mission-title-char--white" : ""}`}
+                >
+                  {character}
+                </span>
+              );
+            })}
+          </span>
+        );
+      })}
     </span>
   );
 }
