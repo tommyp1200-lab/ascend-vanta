@@ -42,7 +42,8 @@ interface NarrativeCoordinatorValue {
   updateNarrativeState: (state: NarrativeState) => void;
   registerChapter: (registration: ChapterRegistration) => () => void;
   requestRefresh: (reason?: string) => void;
-  setDirectScroll: (active: boolean, scrollTarget?: number) => void;
+  scrollToPosition: (target: number, onComplete?: () => void) => void;
+  setDirectScroll: (active: boolean) => void;
 }
 
 declare global {
@@ -235,19 +236,36 @@ export function NarrativeCoordinator({ children }: { children: ReactNode }) {
     [restoreState],
   );
 
-  const setDirectScroll = useCallback((active: boolean, scrollTarget?: number) => {
-    directScrollRef.current = active;
+  const scrollToPosition = useCallback((target: number, onComplete?: () => void) => {
+    const boundedTarget = Math.min(
+      Math.max(0, target),
+      Math.max(0, document.documentElement.scrollHeight - window.innerHeight),
+    );
     const lenis = lenisRef.current;
     if (!lenis) {
-      if (active && scrollTarget !== undefined) {
-        window.scrollTo({ top: scrollTarget, behavior: "auto" });
-      }
+      window.scrollTo({ top: boundedTarget, behavior: "auto" });
+      ScrollTrigger.update();
+      onComplete?.();
       return;
     }
+    lenis.scrollTo(boundedTarget, {
+      duration: 0.45,
+      easing: (progress) => 1 - Math.pow(1 - progress, 4),
+      force: true,
+      lock: true,
+      onComplete: () => {
+        ScrollTrigger.update();
+        onComplete?.();
+      },
+    });
+  }, []);
+
+  const setDirectScroll = useCallback((active: boolean) => {
+    directScrollRef.current = active;
+    const lenis = lenisRef.current;
+    if (!lenis) return;
     lenis.options.lerp = active ? 1 : 0.115;
-    if (active) {
-      lenis.scrollTo(scrollTarget ?? window.scrollY, { immediate: true, force: true });
-    }
+    if (active) lenis.scrollTo(window.scrollY, { immediate: true, force: true });
   }, []);
 
   useEffect(() => {
@@ -431,6 +449,7 @@ export function NarrativeCoordinator({ children }: { children: ReactNode }) {
       updateNarrativeState,
       registerChapter,
       requestRefresh,
+      scrollToPosition,
       setDirectScroll,
     }),
     [
@@ -441,6 +460,7 @@ export function NarrativeCoordinator({ children }: { children: ReactNode }) {
       updateNarrativeState,
       registerChapter,
       requestRefresh,
+      scrollToPosition,
       setDirectScroll,
     ],
   );

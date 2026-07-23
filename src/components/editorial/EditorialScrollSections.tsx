@@ -177,7 +177,7 @@ export function EditorialScrollSections({
     reducedMotion,
     registerChapter,
     requestRefresh,
-    setDirectScroll,
+    scrollToPosition,
     updateNarrativeState,
   } = useNarrativeCoordinator();
 
@@ -998,6 +998,7 @@ export function EditorialScrollSections({
         });
       };
 
+      let skippingHorizontalSequence = false;
       const horizontalTimeline = gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: {
@@ -1022,7 +1023,11 @@ export function EditorialScrollSections({
               self.progress * HORIZONTAL_TIMELINE_DURATION,
               1,
             );
-            updateHorizontalExperience(self.progress, self.direction, self.isActive);
+            updateHorizontalExperience(
+              self.progress,
+              self.direction,
+              self.isActive && !skippingHorizontalSequence,
+            );
           },
           onLeave: () => {
             horizontalProgressRef.current = 1;
@@ -1923,29 +1928,38 @@ export function EditorialScrollSections({
         }
       };
 
-      let skipSyncFrame: number | null = null;
-      let skipReleaseFrame: number | null = null;
-      let skipDirectScrollActive = false;
+      let skipRetryTimer: number | null = null;
+      let skipReleaseTimer: number | null = null;
       const handleSkipSequence = () => {
-        const scrollTrigger = horizontalTimeline.scrollTrigger;
-        if (!scrollTrigger) return;
-        const target = scrollTrigger.end + 2;
+        if (skipRetryTimer !== null) window.clearTimeout(skipRetryTimer);
+        if (skipReleaseTimer !== null) window.clearTimeout(skipReleaseTimer);
 
-        if (skipSyncFrame !== null) window.cancelAnimationFrame(skipSyncFrame);
-        if (skipReleaseFrame !== null) window.cancelAnimationFrame(skipReleaseFrame);
+        const finalChapter = HORIZONTAL_CHAPTERS[HORIZONTAL_CHAPTERS.length - 1];
+        const finalState = {
+          chapterId: `${finalChapter.id}-text`,
+          localProgress: 1,
+        };
+        const finishSkip = () => {
+          skippingHorizontalSequence = false;
+          updateNarrativeState(finalState);
+        };
+        const scrollToEnd = (onComplete?: () => void) => {
+          const scrollTrigger = horizontalTimeline.scrollTrigger;
+          if (!scrollTrigger) return;
+          scrollToPosition(scrollTrigger.end + 2, onComplete);
+        };
 
-        skipDirectScrollActive = true;
-        setDirectScroll(true, target);
-
-        skipSyncFrame = window.requestAnimationFrame(() => {
-          skipSyncFrame = null;
-          setDirectScroll(true, target);
-          skipReleaseFrame = window.requestAnimationFrame(() => {
-            skipReleaseFrame = null;
-            skipDirectScrollActive = false;
-            setDirectScroll(false);
-          });
-        });
+        skippingHorizontalSequence = true;
+        updateNarrativeState(finalState);
+        scrollToEnd();
+        skipRetryTimer = window.setTimeout(() => {
+          skipRetryTimer = null;
+          scrollToEnd(finishSkip);
+        }, 650);
+        skipReleaseTimer = window.setTimeout(() => {
+          skipReleaseTimer = null;
+          finishSkip();
+        }, 1400);
       };
 
       const handleHorizontalKeydown = (event: KeyboardEvent) => {
@@ -2233,9 +2247,9 @@ export function EditorialScrollSections({
         window.removeEventListener("keydown", handleHorizontalKeydown);
         window.removeEventListener("pointerdown", handleTouchStart);
         window.removeEventListener("pointerup", handleTouchEnd);
-        if (skipSyncFrame !== null) window.cancelAnimationFrame(skipSyncFrame);
-        if (skipReleaseFrame !== null) window.cancelAnimationFrame(skipReleaseFrame);
-        if (skipDirectScrollActive) setDirectScroll(false);
+        if (skipRetryTimer !== null) window.clearTimeout(skipRetryTimer);
+        if (skipReleaseTimer !== null) window.clearTimeout(skipReleaseTimer);
+        skippingHorizontalSequence = false;
         horizontalImagePanels.forEach((panel) => panel.classList.remove("is-active"));
         void audioContext?.close();
       };
@@ -2249,7 +2263,7 @@ export function EditorialScrollSections({
         reducedMotion,
         registerChapter,
         requestRefresh,
-        setDirectScroll,
+        scrollToPosition,
         updateNarrativeState,
       ],
       revertOnUpdate: true,
