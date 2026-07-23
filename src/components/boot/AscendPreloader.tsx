@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
@@ -73,7 +73,6 @@ function readIgnitionMode(): IgnitionMode {
 export function AscendPreloader() {
   const loaderRef = useRef<HTMLDivElement>(null);
   const releasedRef = useRef(false);
-  const [mounted, setMounted] = useState(true);
 
   useGSAP(
     (context, contextSafe) => {
@@ -116,6 +115,7 @@ export function AscendPreloader() {
       gsap.set(wordmark, { yPercent: 8, scale: 0.98, transformOrigin: "center bottom" });
 
       const trace = loader.querySelector(".av-core-energy-trace");
+      const field = loader.querySelector(".av-core-field");
       const paths = loader.querySelectorAll(".av-core-path");
       const segments = loader.querySelectorAll(".av-core-segment");
       const core = loader.querySelector(".av-core-light");
@@ -223,7 +223,6 @@ export function AscendPreloader() {
           // Session-aware timing is an enhancement, never a release dependency.
         }
         window.dispatchEvent(new CustomEvent(BOOT_COMPLETE_EVENT, { detail: { reason } }));
-        setMounted(false);
       });
 
       const release = safe((reason: string) => {
@@ -243,9 +242,9 @@ export function AscendPreloader() {
           window.dispatchEvent(new CustomEvent("ascend:hero-entering"));
           const wordmarkDuration =
             mode === "reduced" ? 0.06 : mode === "warm" ? 0.09 : 0.22;
-          const loaderFadeAt =
+          const contentFadeAt =
             mode === "reduced" ? 0.01 : mode === "warm" ? 0.03 : 0.08;
-          const loaderFadeDuration =
+          const contentFadeDuration =
             mode === "reduced" ? 0.04 : mode === "warm" ? 0.07 : 0.12;
           const releaseTimeline = gsap.timeline({
             defaults: { overwrite: "auto" },
@@ -270,11 +269,11 @@ export function AscendPreloader() {
               duration: mode === "reduced" ? 0.05 : mode === "warm" ? 0.08 : 0.18,
               ease: "power3.in",
             }, 0)
-            .to(loader, {
+            .to([field, status], {
               autoAlpha: 0,
-              duration: loaderFadeDuration,
+              duration: contentFadeDuration,
               ease: "power2.out",
-            }, loaderFadeAt);
+            }, contentFadeAt);
         });
       });
 
@@ -327,8 +326,6 @@ export function AscendPreloader() {
     },
     { scope: loaderRef },
   );
-
-  if (!mounted) return null;
 
   return (
     <div

@@ -308,7 +308,7 @@ a {
 }
 
 .ascend-preloader[data-state="complete"] {
-  display: none;
+  pointer-events: none;
 }
 
 html[data-ascend-boot="emergency"] .ascend-preloader {
