@@ -241,8 +241,6 @@ export function AscendPreloader() {
         window.requestAnimationFrame(() => {
           if (cancelled) return;
           window.dispatchEvent(new CustomEvent("ascend:hero-entering"));
-          const veilDuration =
-            mode === "reduced" ? 0.05 : mode === "warm" ? 0.09 : 0.2;
           const wordmarkDuration =
             mode === "reduced" ? 0.06 : mode === "warm" ? 0.09 : 0.22;
           const loaderFadeAt =
@@ -266,20 +264,6 @@ export function AscendPreloader() {
               duration: wordmarkDuration,
               ease: "power3.out",
             }, mode === "reduced" ? 0 : mode === "warm" ? 0.02 : 0.04)
-            .to(".av-core-veil--northwest", {
-              xPercent: -8,
-              yPercent: -12,
-              autoAlpha: 0,
-              duration: veilDuration,
-              ease: "power4.inOut",
-            }, 0.04)
-            .to(".av-core-veil--southeast", {
-              xPercent: 8,
-              yPercent: 12,
-              autoAlpha: 0,
-              duration: veilDuration,
-              ease: "power4.inOut",
-            }, 0.04)
             .to(".av-core-assembly", {
               scale: mode === "reduced" ? 1 : 1.14,
               autoAlpha: 0,
@@ -356,8 +340,6 @@ export function AscendPreloader() {
       aria-live="polite"
       aria-label="Preparing Ascend Vanta"
     >
-      <div className="av-core-veil av-core-veil--northwest" aria-hidden="true" />
-      <div className="av-core-veil av-core-veil--southeast" aria-hidden="true" />
       <div className="av-core-field" aria-hidden="true">
         <span className="av-core-energy-trace" />
         <span className="av-core-ring av-core-ring--outer" />

@@ -106,12 +106,7 @@ a {
   display: grid;
   overflow: hidden;
   place-items: center;
-  background: radial-gradient(
-    circle at 50% 48%,
-    rgba(5, 7, 10, 0.02) 0 18%,
-    rgba(5, 7, 10, 0.08) 56%,
-    rgba(5, 7, 10, 0.12) 100%
-  );
+  background: transparent;
   color: #f4f7f2;
   contain: layout paint style;
   isolation: isolate;
@@ -120,40 +115,7 @@ a {
 }
 
 .ascend-preloader::before {
-  position: absolute;
-  z-index: 0;
-  inset: -20%;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(207, 255, 4, 0.035) 0 1px, transparent 1.5px)
-      0 0 / 23px 23px,
-    radial-gradient(circle at 50% 50%, rgba(244, 247, 242, 0.022) 0 1px, transparent 1.5px)
-      11px 8px / 31px 31px;
-  content: "";
-  opacity: 0.52;
-  pointer-events: none;
-  transform: rotate(-7deg);
-}
-
-.av-core-veil {
-  position: absolute;
-  z-index: 5;
-  inset: -8%;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(5, 7, 10, 0.05),
-    rgba(5, 7, 10, 0.16) 62%,
-    rgba(5, 7, 10, 0.22)
-  );
-  pointer-events: none;
-  will-change: transform, opacity;
-}
-
-.av-core-veil--northwest {
-  clip-path: polygon(0 0, 100% 0, 51.5% 50%, 0 100%);
-}
-
-.av-core-veil--southeast {
-  clip-path: polygon(100% 0, 100% 100%, 0 100%, 48.5% 50%);
+  display: none;
 }
 
 .av-core-field {
@@ -337,7 +299,6 @@ a {
 .ascend-preloader[data-state="igniting"] .av-core-energy-trace,
 .ascend-preloader[data-state="igniting"] .av-core-ring,
 .ascend-preloader[data-state="igniting"] .av-core-assembly,
-.ascend-preloader[data-state="releasing"] .av-core-veil,
 .ascend-preloader[data-state="releasing"] .av-core-assembly {
   will-change: transform, opacity;
 }
