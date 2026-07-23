@@ -20,6 +20,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 const siteUrl = getSiteUrl();
+const initialFrameStyles =
+  "html,body,.site-shell{max-width:100%;overflow-x:clip;background:#02040a;color:#f4f7f2}" +
+  "img,svg,video,canvas,figure{max-width:100%}";
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
@@ -110,8 +113,22 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   };
 
   return (
-    <html lang="en">
-      <body className={`${spaceGrotesk.variable} ${spaceGrotesk.className}`}>
+    <html
+      lang="en"
+      style={{ overflowX: "clip", background: "#02040a", colorScheme: "dark" }}
+    >
+      <head>
+        <style>{initialFrameStyles}</style>
+      </head>
+      <body
+        className={`${spaceGrotesk.variable} ${spaceGrotesk.className}`}
+        style={{
+          margin: 0,
+          overflowX: "clip",
+          background: "#02040a",
+          color: "#f4f7f2",
+        }}
+      >
         {children}
         <GoogleAnalytics />
         <StructuredData data={structuredData} />
