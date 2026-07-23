@@ -42,7 +42,7 @@ interface NarrativeCoordinatorValue {
   updateNarrativeState: (state: NarrativeState) => void;
   registerChapter: (registration: ChapterRegistration) => () => void;
   requestRefresh: (reason?: string) => void;
-  setDirectScroll: (active: boolean) => void;
+  setDirectScroll: (active: boolean, scrollTarget?: number) => void;
 }
 
 declare global {
@@ -235,12 +235,19 @@ export function NarrativeCoordinator({ children }: { children: ReactNode }) {
     [restoreState],
   );
 
-  const setDirectScroll = useCallback((active: boolean) => {
+  const setDirectScroll = useCallback((active: boolean, scrollTarget?: number) => {
     directScrollRef.current = active;
     const lenis = lenisRef.current;
-    if (!lenis) return;
+    if (!lenis) {
+      if (active && scrollTarget !== undefined) {
+        window.scrollTo({ top: scrollTarget, behavior: "auto" });
+      }
+      return;
+    }
     lenis.options.lerp = active ? 1 : 0.115;
-    if (active) lenis.scrollTo(window.scrollY, { immediate: true, force: true });
+    if (active) {
+      lenis.scrollTo(scrollTarget ?? window.scrollY, { immediate: true, force: true });
+    }
   }, []);
 
   useEffect(() => {

@@ -177,6 +177,7 @@ export function EditorialScrollSections({
     reducedMotion,
     registerChapter,
     requestRefresh,
+    setDirectScroll,
     updateNarrativeState,
   } = useNarrativeCoordinator();
 
@@ -1922,10 +1923,29 @@ export function EditorialScrollSections({
         }
       };
 
+      let skipSyncFrame: number | null = null;
+      let skipReleaseFrame: number | null = null;
+      let skipDirectScrollActive = false;
       const handleSkipSequence = () => {
         const scrollTrigger = horizontalTimeline.scrollTrigger;
         if (!scrollTrigger) return;
-        window.scrollTo({ top: scrollTrigger.end + 2, behavior: "auto" });
+        const target = scrollTrigger.end + 2;
+
+        if (skipSyncFrame !== null) window.cancelAnimationFrame(skipSyncFrame);
+        if (skipReleaseFrame !== null) window.cancelAnimationFrame(skipReleaseFrame);
+
+        skipDirectScrollActive = true;
+        setDirectScroll(true, target);
+
+        skipSyncFrame = window.requestAnimationFrame(() => {
+          skipSyncFrame = null;
+          setDirectScroll(true, target);
+          skipReleaseFrame = window.requestAnimationFrame(() => {
+            skipReleaseFrame = null;
+            skipDirectScrollActive = false;
+            setDirectScroll(false);
+          });
+        });
       };
 
       const handleHorizontalKeydown = (event: KeyboardEvent) => {
@@ -2213,6 +2233,9 @@ export function EditorialScrollSections({
         window.removeEventListener("keydown", handleHorizontalKeydown);
         window.removeEventListener("pointerdown", handleTouchStart);
         window.removeEventListener("pointerup", handleTouchEnd);
+        if (skipSyncFrame !== null) window.cancelAnimationFrame(skipSyncFrame);
+        if (skipReleaseFrame !== null) window.cancelAnimationFrame(skipReleaseFrame);
+        if (skipDirectScrollActive) setDirectScroll(false);
         horizontalImagePanels.forEach((panel) => panel.classList.remove("is-active"));
         void audioContext?.close();
       };
@@ -2226,6 +2249,7 @@ export function EditorialScrollSections({
         reducedMotion,
         registerChapter,
         requestRefresh,
+        setDirectScroll,
         updateNarrativeState,
       ],
       revertOnUpdate: true,
