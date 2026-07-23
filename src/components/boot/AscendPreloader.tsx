@@ -7,10 +7,11 @@ import gsap from "gsap";
 const SESSION_KEY = "ascend-vanta:core-ignition:v1";
 const HERO_MOTION_EVENT = "ascend:hero-motion-ready";
 const BOOT_COMPLETE_EVENT = "ascend:boot-complete";
-const FULL_MINIMUM_MS = 1_400;
-const WARM_MINIMUM_MS = 450;
-const REDUCED_MINIMUM_MS = 220;
-const EMERGENCY_MAXIMUM_MS = 4_000;
+const FULL_MINIMUM_MS = 620;
+const WARM_MINIMUM_MS = 220;
+const REDUCED_MINIMUM_MS = 100;
+const CRITICAL_SHELL_CEILING_MS = 1_250;
+const EMERGENCY_MAXIMUM_MS = 1_750;
 
 type IgnitionMode = "full" | "warm" | "reduced";
 
@@ -60,26 +61,6 @@ function waitForHeroMotion() {
   });
 }
 
-function waitForPoster(picture: HTMLElement | null) {
-  const image = picture?.querySelector("img");
-  if (!image) return Promise.resolve();
-  if (image.complete && image.naturalWidth > 0) {
-    return image.decode?.().catch(() => undefined) ?? Promise.resolve();
-  }
-
-  return new Promise<void>((resolve) => {
-    const finish = () => {
-      image.removeEventListener("load", finish);
-      image.removeEventListener("error", finish);
-      const decode = image.decode?.();
-      if (decode) decode.catch(() => undefined).finally(resolve);
-      else resolve();
-    };
-    image.addEventListener("load", finish, { once: true });
-    image.addEventListener("error", finish, { once: true });
-  });
-}
-
 function readIgnitionMode(): IgnitionMode {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return "reduced";
   try {
@@ -120,6 +101,7 @@ export function AscendPreloader() {
       let resourcesReady = false;
       let cancelled = false;
       let emergencyTimer = 0;
+      let criticalShellTimer = 0;
       let minimumTimer = 0;
 
       loader.dataset.mode = mode;
@@ -128,33 +110,23 @@ export function AscendPreloader() {
       root.dataset.ascendIgnitionMode = mode;
       shell.setAttribute("aria-busy", "true");
 
-      gsap.set([fallback, cornerLogo, wordmark, vignette], {
+      gsap.set([wordmark, vignette], {
         autoAlpha: 0,
       });
-      gsap.set(fallback, {
-        scale: 1.035,
-        filter: "brightness(0.4) saturate(0.72) blur(6px)",
-        transformOrigin: "center center",
-      });
-      gsap.set(cornerLogo, { y: -12 });
       gsap.set(wordmark, { yPercent: 8, scale: 0.98, transformOrigin: "center bottom" });
 
       const trace = loader.querySelector(".av-core-energy-trace");
       const paths = loader.querySelectorAll(".av-core-path");
       const segments = loader.querySelectorAll(".av-core-segment");
-      const authenticMark = loader.querySelector(".av-core-authentic-mark");
       const core = loader.querySelector(".av-core-light");
       const rings = loader.querySelectorAll(".av-core-ring");
-      const particles = loader.querySelectorAll(".av-core-particle");
       const status = loader.querySelector(".av-core-status");
 
       gsap.set(trace, { autoAlpha: 0, scaleX: 0, transformOrigin: "left center" });
-      gsap.set(paths, { autoAlpha: 0, strokeDashoffset: 1 });
+      gsap.set(paths, { autoAlpha: 0.22, strokeDashoffset: 0.82 });
       gsap.set(segments, { autoAlpha: 0, scale: 0.72, transformOrigin: "center" });
-      gsap.set(authenticMark, { autoAlpha: 0, scale: 0.985, filter: "blur(7px)" });
       gsap.set(core, { autoAlpha: 0, scale: 0.15, transformOrigin: "center" });
       gsap.set(rings, { autoAlpha: 0, scale: 0.55, transformOrigin: "center" });
-      gsap.set(particles, { autoAlpha: 0, scale: 0, x: 0, y: 0 });
       gsap.set(status, { autoAlpha: 0, y: 6 });
 
       const markCinematicReady = safe(() => {
@@ -170,97 +142,68 @@ export function AscendPreloader() {
 
       if (mode === "reduced") {
         ignition
-          .to(authenticMark, {
-            autoAlpha: 1,
-            scale: 1,
-            filter: "blur(0px)",
-            duration: 0.16,
-            ease: "power1.out",
-          })
-          .to(core, { autoAlpha: 0.72, scale: 0.78, duration: 0.12 }, 0.04);
+          .to(paths, { autoAlpha: 0.62, strokeDashoffset: 0, duration: 0.08 })
+          .to(core, { autoAlpha: 0.58, scale: 0.72, duration: 0.08 }, 0.02);
       } else if (mode === "warm") {
         ignition
-          .to(trace, { autoAlpha: 0.72, scaleX: 1, duration: 0.16, ease: "power2.out" })
+          .to(trace, { autoAlpha: 0.72, scaleX: 1, duration: 0.1, ease: "power2.out" })
           .to(paths, {
             autoAlpha: 0.78,
             strokeDashoffset: 0,
-            duration: 0.28,
-            stagger: 0.025,
+            duration: 0.16,
+            stagger: 0.015,
             ease: "power2.inOut",
-          }, 0.07)
-          .to(authenticMark, {
-            autoAlpha: 1,
-            scale: 1,
-            filter: "blur(0px)",
-            duration: 0.24,
-            ease: "power2.out",
-          }, 0.24)
-          .to(core, { autoAlpha: 0.9, scale: 1, duration: 0.22, ease: "back.out(1.4)" }, 0.27)
+          }, 0.03)
+          .to(core, { autoAlpha: 0.86, scale: 1, duration: 0.12, ease: "power2.out" }, 0.14)
           .to(rings, {
-            autoAlpha: 0.42,
+            autoAlpha: 0.32,
             scale: 1,
-            duration: 0.24,
-            stagger: 0.035,
+            duration: 0.12,
+            stagger: 0.02,
             ease: "power2.out",
-          }, 0.3);
+          }, 0.16);
       } else {
         ignition
-          .to(status, { autoAlpha: 0.62, y: 0, duration: 0.24, ease: "power2.out" })
+          .to(status, { autoAlpha: 0.62, y: 0, duration: 0.12, ease: "power2.out" })
           .to(trace, {
             autoAlpha: 0.82,
             scaleX: 1,
-            duration: 0.34,
+            duration: 0.18,
             ease: "power3.inOut",
-          }, 0.04)
+          }, 0.02)
           .to(paths, {
             autoAlpha: 0.86,
             strokeDashoffset: 0,
-            duration: 0.58,
-            stagger: 0.075,
+            duration: 0.3,
+            stagger: 0.035,
             ease: "power2.inOut",
-          }, 0.18)
+          }, 0.08)
           .to(segments, {
             autoAlpha: 0.78,
             scale: 1,
-            duration: 0.3,
-            stagger: 0.055,
-            ease: "back.out(1.45)",
-          }, 0.48)
+            duration: 0.16,
+            stagger: 0.025,
+            ease: "power2.out",
+          }, 0.2)
           .to(core, {
             autoAlpha: 0.95,
             scale: 1,
-            duration: 0.34,
-            ease: "back.out(1.65)",
-          }, 0.72)
-          .to(authenticMark, {
-            autoAlpha: 1,
-            scale: 1,
-            filter: "blur(0px)",
-            duration: 0.48,
+            duration: 0.18,
             ease: "power3.out",
-          }, 0.78)
-          .to(paths, { autoAlpha: 0.2, duration: 0.28 }, 1.02)
+          }, 0.3)
+          .to(paths, { autoAlpha: 0.18, duration: 0.15 }, 0.44)
           .to(rings, {
-            autoAlpha: 0.46,
+            autoAlpha: 0.38,
             scale: 1,
-            duration: 0.5,
-            stagger: 0.06,
+            duration: 0.2,
+            stagger: 0.03,
             ease: "power3.out",
-          }, 0.84)
-          .to(particles, {
-            autoAlpha: 0.72,
-            scale: 1,
-            x: (index) => Math.cos((index / Math.max(1, particles.length)) * Math.PI * 2) * 22,
-            y: (index) => Math.sin((index / Math.max(1, particles.length)) * Math.PI * 2) * 18,
-            duration: 0.44,
-            stagger: 0.025,
-            ease: "power2.out",
-          }, 0.9)
-          .to(trace, { autoAlpha: 0, duration: 0.26 }, 1.12)
-          .to(status, { autoAlpha: 0.86, duration: 0.22 }, 1.18);
+          }, 0.36)
+          .to(trace, { autoAlpha: 0, duration: 0.14 }, 0.5)
+          .to(status, { autoAlpha: 0.78, duration: 0.1 }, 0.48);
       }
-      if (mode === "full") ignition.timeScale(1.35);
-      if (mode === "warm") ignition.timeScale(3);
+      if (mode === "warm") ignition.timeScale(2.5);
+      if (mode === "reduced") ignition.timeScale(4);
 
       const finishRelease = safe((reason: string) => {
         if (cancelled) return;
@@ -270,7 +213,7 @@ export function AscendPreloader() {
         shell.setAttribute("aria-busy", "false");
         loader.dataset.state = "complete";
         loader.setAttribute("aria-hidden", "true");
-        gsap.set([fallback, cornerLogo, wordmark, vignette], {
+        gsap.set([wordmark, vignette], {
           clearProps: "opacity,visibility,transform,filter",
         });
         try {
@@ -286,64 +229,42 @@ export function AscendPreloader() {
         if (releasedRef.current || cancelled) return;
         releasedRef.current = true;
         window.clearTimeout(emergencyTimer);
+        window.clearTimeout(criticalShellTimer);
         window.clearTimeout(minimumTimer);
         loader.dataset.state = "releasing";
 
-        gsap.set([fallback, cornerLogo, wordmark, vignette], { autoAlpha: 0 });
-        gsap.set(fallback, {
-          scale: 1.035,
-          filter: "brightness(0.4) saturate(0.72) blur(6px)",
-        });
-        gsap.set(cornerLogo, { y: -12 });
+        gsap.set([wordmark, vignette], { autoAlpha: 0 });
         gsap.set(wordmark, { yPercent: 8, scale: 0.98 });
-        gsap.set(loader, { background: "transparent" });
         root.dataset.ascendBoot = "ready";
 
         window.requestAnimationFrame(() => {
           if (cancelled) return;
           window.dispatchEvent(new CustomEvent("ascend:hero-entering"));
-          const fallbackDuration =
-            mode === "reduced" ? 0.18 : mode === "warm" ? 0.22 : 0.5;
           const veilDuration =
-            mode === "reduced" ? 0.16 : mode === "warm" ? 0.22 : 0.5;
-          const logoDuration =
-            mode === "reduced" ? 0.16 : mode === "warm" ? 0.18 : 0.42;
+            mode === "reduced" ? 0.05 : mode === "warm" ? 0.1 : 0.26;
           const wordmarkDuration =
-            mode === "reduced" ? 0.18 : mode === "warm" ? 0.2 : 0.46;
+            mode === "reduced" ? 0.06 : mode === "warm" ? 0.1 : 0.26;
           const loaderFadeAt =
-            mode === "reduced" ? 0.1 : mode === "warm" ? 0.12 : 0.3;
+            mode === "reduced" ? 0.01 : mode === "warm" ? 0.03 : 0.12;
           const loaderFadeDuration =
-            mode === "reduced" ? 0.12 : mode === "warm" ? 0.1 : 0.2;
+            mode === "reduced" ? 0.04 : mode === "warm" ? 0.08 : 0.16;
           const releaseTimeline = gsap.timeline({
             defaults: { overwrite: "auto" },
             onComplete: () => finishRelease(reason),
           });
           releaseTimeline
-            .to(fallback, {
-              autoAlpha: 1,
-              scale: 1,
-              filter: "brightness(1) saturate(1) blur(0px)",
-              duration: fallbackDuration,
-              ease: "power3.out",
-            }, 0)
             .to(vignette, {
               autoAlpha: 1,
-              duration: mode === "reduced" ? 0.14 : mode === "warm" ? 0.22 : 0.48,
+              duration: mode === "reduced" ? 0.05 : mode === "warm" ? 0.1 : 0.24,
               ease: "power2.out",
             }, 0)
-            .to(cornerLogo, {
-              autoAlpha: 1,
-              y: 0,
-              duration: logoDuration,
-              ease: "power3.out",
-            }, mode === "reduced" ? 0 : mode === "warm" ? 0.02 : 0.06)
             .to(wordmark, {
               autoAlpha: 1,
               yPercent: 0,
               scale: 1,
               duration: wordmarkDuration,
               ease: "power3.out",
-            }, mode === "reduced" ? 0 : mode === "warm" ? 0.03 : 0.08)
+            }, mode === "reduced" ? 0 : mode === "warm" ? 0.02 : 0.04)
             .to(".av-core-veil--northwest", {
               xPercent: -8,
               yPercent: -12,
@@ -361,8 +282,7 @@ export function AscendPreloader() {
             .to(".av-core-assembly", {
               scale: mode === "reduced" ? 1 : 1.14,
               autoAlpha: 0,
-              filter: "blur(5px)",
-              duration: mode === "reduced" ? 0.14 : mode === "warm" ? 0.2 : 0.4,
+              duration: mode === "reduced" ? 0.05 : mode === "warm" ? 0.09 : 0.22,
               ease: "power3.in",
             }, 0)
             .to(loader, {
@@ -380,10 +300,8 @@ export function AscendPreloader() {
       }
 
       Promise.allSettled([
-        bounded(document.fonts.ready, 1_200),
-        bounded(waitForPoster(fallback), 1_500),
-        bounded(waitForHeroMotion(), 2_400),
-        bounded(waitForPaint(), 600),
+        bounded(waitForHeroMotion(), 1_100),
+        bounded(waitForPaint(), 180),
       ]).then(
         safe(() => {
           if (cancelled) return;
@@ -392,6 +310,13 @@ export function AscendPreloader() {
           maybeRelease();
         }),
       );
+
+      criticalShellTimer = window.setTimeout(() => {
+        if (cancelled || resourcesReady) return;
+        resourcesReady = true;
+        root.dataset.ascendCriticalReady = "fallback";
+        maybeRelease();
+      }, CRITICAL_SHELL_CEILING_MS);
 
       const onBootstrapEmergency = safe(() => {
         resourcesReady = true;
@@ -409,6 +334,7 @@ export function AscendPreloader() {
       return () => {
         cancelled = true;
         window.clearTimeout(emergencyTimer);
+        window.clearTimeout(criticalShellTimer);
         window.clearTimeout(minimumTimer);
         window.removeEventListener("ascend:boot-emergency", onBootstrapEmergency);
         ignition.kill();
@@ -442,28 +368,6 @@ export function AscendPreloader() {
             role="presentation"
             focusable="false"
           >
-            <defs>
-              <filter id="av-core-glow" x="-80%" y="-80%" width="260%" height="260%">
-                <feGaussianBlur stdDeviation="1.25" result="blur" />
-                <feMerge>
-                  <feMergeNode in="blur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-              <clipPath id="av-core-authentic-crop">
-                <rect x="0" y="0" width="104" height="74" rx="2" />
-              </clipPath>
-            </defs>
-            <image
-              className="av-core-authentic-mark"
-              href="/assets/brand/ascend-vanta-corner-logo.png"
-              x="0"
-              y="0"
-              width="414"
-              height="74"
-              preserveAspectRatio="xMinYMid meet"
-              clipPath="url(#av-core-authentic-crop)"
-            />
             <path
               className="av-core-path av-core-path--lime"
               pathLength="1"
@@ -480,13 +384,6 @@ export function AscendPreloader() {
             <path className="av-core-segment av-core-segment--four" d="M76 54L101 9H88L70 42Z" />
           </svg>
           <span className="av-core-light" />
-          {Array.from({ length: 12 }, (_, index) => (
-            <span
-              className="av-core-particle"
-              style={{ "--particle-index": index } as React.CSSProperties}
-              key={index}
-            />
-          ))}
         </div>
       </div>
       <p className="av-core-status">

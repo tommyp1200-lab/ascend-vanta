@@ -106,9 +106,12 @@ a {
   display: grid;
   overflow: hidden;
   place-items: center;
-  background:
-    radial-gradient(circle at 50% 48%, rgba(28, 37, 8, 0.24), transparent 34%),
-    #05070a;
+  background: radial-gradient(
+    circle at 50% 48%,
+    rgba(5, 7, 10, 0.04) 0 18%,
+    rgba(5, 7, 10, 0.2) 56%,
+    rgba(5, 7, 10, 0.34) 100%
+  );
   color: #f4f7f2;
   contain: layout paint style;
   isolation: isolate;
@@ -135,9 +138,12 @@ a {
   position: absolute;
   z-index: 5;
   inset: -8%;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(15, 19, 8, 0.92), transparent 42%),
-    #05070a;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(5, 7, 10, 0.1),
+    rgba(5, 7, 10, 0.34) 62%,
+    rgba(5, 7, 10, 0.46)
+  );
   pointer-events: none;
   will-change: transform, opacity;
 }
@@ -234,11 +240,7 @@ a {
   width: clamp(9.5rem, 19vw, 14rem);
   aspect-ratio: 104 / 74;
   place-items: center;
-  filter:
-    drop-shadow(0 1.3rem 2.2rem rgba(0, 0, 0, 0.72))
-    drop-shadow(0 0 2.4rem rgba(207, 255, 4, 0.08));
   transform-origin: center;
-  will-change: transform, opacity, filter;
 }
 
 .av-core-glyph {
@@ -250,31 +252,23 @@ a {
   overflow: visible;
 }
 
-.av-core-authentic-mark {
-  transform-box: fill-box;
-  transform-origin: center;
-  will-change: transform, opacity, filter;
-}
-
 .av-core-path {
   fill: none;
   stroke-width: 1.05;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-dasharray: 1;
-  stroke-dashoffset: 1;
+  stroke-dashoffset: 0.82;
+  opacity: 0.22;
   vector-effect: non-scaling-stroke;
-  will-change: stroke-dashoffset, opacity;
 }
 
 .av-core-path--lime {
   stroke: #cfff04;
-  filter: url("#av-core-glow");
 }
 
 .av-core-path--pearl {
   stroke: rgba(244, 247, 242, 0.92);
-  filter: url("#av-core-glow");
 }
 
 .av-core-segment {
@@ -317,22 +311,6 @@ a {
   will-change: transform, opacity;
 }
 
-.av-core-particle {
-  --particle-angle: calc(var(--particle-index) * 30deg);
-  position: absolute;
-  z-index: 3;
-  top: 50%;
-  left: 50%;
-  width: 0.32rem;
-  height: 0.32rem;
-  background: #cfff04;
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
-  filter: drop-shadow(0 0 0.45rem rgba(207, 255, 4, 0.7));
-  opacity: 0;
-  transform: translate(-50%, -50%) rotate(var(--particle-angle));
-  will-change: transform, opacity;
-}
-
 .av-core-status {
   position: absolute;
   z-index: 9;
@@ -350,11 +328,18 @@ a {
 
 .ascend-preloader[data-mode="reduced"]::before,
 .ascend-preloader[data-mode="reduced"] .av-core-energy-trace,
-.ascend-preloader[data-mode="reduced"] .av-core-particle,
 .ascend-preloader[data-mode="reduced"] .av-core-path,
 .ascend-preloader[data-mode="reduced"] .av-core-segment,
 .ascend-preloader[data-mode="reduced"] .av-core-ring {
   display: none;
+}
+
+.ascend-preloader[data-state="igniting"] .av-core-energy-trace,
+.ascend-preloader[data-state="igniting"] .av-core-ring,
+.ascend-preloader[data-state="igniting"] .av-core-assembly,
+.ascend-preloader[data-state="releasing"] .av-core-veil,
+.ascend-preloader[data-state="releasing"] .av-core-assembly {
+  will-change: transform, opacity;
 }
 
 .ascend-preloader[data-state="complete"] {
@@ -419,9 +404,6 @@ html[data-ascend-boot="emergency"] .ascend-preloader {
     forced-color-adjust: auto;
   }
 
-  .av-core-authentic-mark {
-    opacity: 1 !important;
-  }
 }
 
 .hero-fallback,
@@ -672,7 +654,7 @@ html[data-ascend-boot="emergency"] .ascend-preloader {
 .hero-wordmark-image {
   display: block;
   width: 100%;
-  height: auto;
+  aspect-ratio: 2400 / 520;
   filter: drop-shadow(0 0.8rem 1.8rem rgba(0, 0, 0, 0.34));
   user-select: none;
 }

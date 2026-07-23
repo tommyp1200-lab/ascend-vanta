@@ -197,10 +197,12 @@ export function AscendHero() {
       <Image
         className="hero-corner-logo"
         data-hero-animated
+        data-hero-first-scene
         src="/assets/brand/ascend-vanta-corner-logo.png"
         alt="Ascend Vanta Portfolio"
         width={414}
         height={74}
+        loading="eager"
         unoptimized
         sizes="(max-width: 463px) calc(100vw - 50px), 414px"
       />
@@ -222,6 +224,7 @@ export function AscendHero() {
           <picture
             className={`hero-fallback${canvasReady ? " is-superseded" : ""}`}
             data-hero-animated
+            data-hero-first-scene
           >
             <source
               media="(max-width: 767px)"

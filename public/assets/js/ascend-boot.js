@@ -19,7 +19,7 @@
 
   const scheduleEmergencyRelease = () => {
     window.clearTimeout(emergencyTimer);
-    emergencyTimer = window.setTimeout(() => unlock("bootstrap-timeout"), 4_250);
+    emergencyTimer = window.setTimeout(() => unlock("bootstrap-timeout"), 1_800);
   };
 
   window.addEventListener("ascend:boot-complete", () => {
