@@ -396,8 +396,9 @@ export function VantaFrameSequence({
   useEffect(() => {
     if (!reducedMotion && !mobileStatic) return;
     progressRef.current = 0;
+    if (!near) return;
     updateNarrativeState({ chapterId: "vanta-frame-sequence", localProgress: 0, frameIndex: 0 });
-  }, [mobileStatic, progressRef, reducedMotion, updateNarrativeState]);
+  }, [mobileStatic, near, progressRef, reducedMotion, updateNarrativeState]);
 
   const staticPresentation = reducedMotion || mobileStatic;
 

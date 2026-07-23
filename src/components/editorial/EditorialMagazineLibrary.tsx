@@ -299,7 +299,7 @@ export function EditorialMagazineLibrary() {
                   key={index}
                   type="button"
                   className={index === currentPage ? "is-active" : undefined}
-                  aria-label={`Go to page ${index + 1}`}
+                  aria-label={`${String(index + 1).padStart(2, "0")} — Go to page ${index + 1}`}
                   aria-current={index === currentPage ? "page" : undefined}
                   disabled={Boolean(turn)}
                   onClick={() => {

@@ -5,7 +5,11 @@ import { forwardRef } from "react";
 export const HeroContent = forwardRef<HTMLDivElement>(function HeroContent(_, ref) {
   return (
     <div ref={ref} className="hero-content">
-      <section className="hero-message hero-message--left" aria-labelledby="hero-marketing-title">
+      <section
+        className="hero-message hero-message--left"
+        role="region"
+        aria-labelledby="hero-marketing-title"
+      >
         <h2 id="hero-marketing-title" className="hero-message-title">
           <span className="hero-message-accent">Marketing</span>
           <span className="hero-message-metal">is the</span>
@@ -13,7 +17,11 @@ export const HeroContent = forwardRef<HTMLDivElement>(function HeroContent(_, re
         </h2>
       </section>
 
-      <section className="hero-message hero-message--right" aria-labelledby="hero-systems-title">
+      <section
+        className="hero-message hero-message--right"
+        role="region"
+        aria-labelledby="hero-systems-title"
+      >
         <h2 id="hero-systems-title" className="hero-message-title">
           <span className="hero-message-accent">Systems</span>
           <span className="hero-message-metal">are the</span>

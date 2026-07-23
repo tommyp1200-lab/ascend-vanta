@@ -2424,10 +2424,8 @@ export function EditorialScrollSections({
                 {SYSTEM_LAYERS.map(({ icon, title, description }, index) => (
                   <div key={title} className="horizontal-answer-item">
                     <SystemLayerIcon name={icon} index={index} />
-                    <div className="horizontal-answer-copy">
-                      <dt>{title}</dt>
-                      <dd>{description}</dd>
-                    </div>
+                    <dt>{title}</dt>
+                    <dd>{description}</dd>
                   </div>
                 ))}
               </dl>
@@ -2485,10 +2483,8 @@ export function EditorialScrollSections({
                     <strong>MASTERED.</strong>
                   </h2>
                   <span className="creative-stack-divider" aria-hidden="true" />
-                  <p
-                    className="creative-stack-kicker"
-                    aria-label="Concept to creation"
-                  >
+                  <p className="creative-stack-kicker">
+                    <span className="sr-only">Concept to creation</span>
                     <span className="creative-stack-kicker__lime" aria-hidden="true">
                       C<span className="creative-stack-gear">⚙</span>NCEPT
                     </span>

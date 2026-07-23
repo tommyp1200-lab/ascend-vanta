@@ -2529,11 +2529,16 @@ html[data-document-visible="false"] .hero-canvas,
   border-bottom: 1px solid rgba(207, 255, 4, 0.09);
 }
 
-.horizontal-answer-copy {
+.horizontal-answer-item > * {
   min-width: 0;
 }
 
+.horizontal-answer-item .system-layer-icon {
+  grid-row: 1 / span 2;
+}
+
 .horizontal-answer-item dt {
+  grid-column: 2;
   margin: 0 0 0.34rem;
   color: var(--lime);
   font-family: var(--font-sans);
@@ -2545,6 +2550,7 @@ html[data-document-visible="false"] .hero-canvas,
 }
 
 .horizontal-answer-item dd {
+  grid-column: 2;
   margin: 0;
   background: linear-gradient(105deg, #ffffff 0%, #f1f3f0 52%, #b8bdb7 100%);
   background-clip: text;
