@@ -7,10 +7,20 @@ const PRODUCTION_SITE_URL = "https://www.ascendvanta.com";
 export function getSiteUrl() {
   const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();
   try {
-    return new URL(configured || PRODUCTION_SITE_URL);
+    const candidate = new URL(configured || PRODUCTION_SITE_URL);
+    if (
+      candidate.protocol === "https:" &&
+      candidate.hostname === "www.ascendvanta.com" &&
+      candidate.port === "" &&
+      candidate.username === "" &&
+      candidate.password === ""
+    ) {
+      return new URL(PRODUCTION_SITE_URL);
+    }
   } catch {
-    return new URL(PRODUCTION_SITE_URL);
+    // Invalid build-time metadata origins fail closed to the canonical production URL.
   }
+  return new URL(PRODUCTION_SITE_URL);
 }
 
 export function absoluteUrl(path = "/") {

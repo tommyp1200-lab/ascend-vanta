@@ -10,6 +10,7 @@ import {
 } from "@/lib/siteMetadata";
 import { APPROVED_PROFILES } from "@/lib/approvedProfiles";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { StructuredData } from "@/components/authority/StructuredData";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -113,10 +114,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={`${spaceGrotesk.variable} ${spaceGrotesk.className}`}>
         {children}
         <GoogleAnalytics />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
+        <StructuredData data={structuredData} />
       </body>
     </html>
   );
