@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
@@ -73,6 +73,7 @@ function readIgnitionMode(): IgnitionMode {
 export function AscendPreloader() {
   const loaderRef = useRef<HTMLDivElement>(null);
   const releasedRef = useRef(false);
+  const [mounted, setMounted] = useState(true);
 
   useGSAP(
     (context, contextSafe) => {
@@ -102,6 +103,8 @@ export function AscendPreloader() {
       let emergencyTimer = 0;
       let criticalShellTimer = 0;
       let minimumTimer = 0;
+      const cleanupEvents = ["pointerdown", "touchstart", "wheel", "keydown"] as const;
+      const removeInertLoader = safe(() => setMounted(false));
 
       loader.dataset.mode = mode;
       loader.dataset.state = "igniting";
@@ -214,6 +217,12 @@ export function AscendPreloader() {
         shell.setAttribute("aria-busy", "false");
         loader.dataset.state = "complete";
         loader.setAttribute("aria-hidden", "true");
+        cleanupEvents.forEach((event) =>
+          window.addEventListener(event, removeInertLoader, {
+            once: true,
+            passive: true,
+          }),
+        );
         gsap.set([wordmark, vignette], {
           clearProps: "opacity,visibility,transform,filter",
         });
@@ -321,11 +330,16 @@ export function AscendPreloader() {
         window.clearTimeout(criticalShellTimer);
         window.clearTimeout(minimumTimer);
         window.removeEventListener("ascend:boot-emergency", onBootstrapEmergency);
+        cleanupEvents.forEach((event) =>
+          window.removeEventListener(event, removeInertLoader),
+        );
         ignition.kill();
       };
     },
     { scope: loaderRef },
   );
+
+  if (!mounted) return null;
 
   return (
     <div
