@@ -245,7 +245,6 @@ export function AscendHero() {
           <div
             ref={heroVignetteRef}
             className="hero-vignette"
-            data-hero-animated
             aria-hidden="true"
           />
           <HeroContent ref={heroContentRef} />

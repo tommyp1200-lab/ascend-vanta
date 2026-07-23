@@ -82,8 +82,7 @@ export function AscendPreloader() {
       const fallback = shell?.querySelector<HTMLElement>(".hero-fallback") ?? null;
       const cornerLogo = shell?.querySelector<HTMLImageElement>(".hero-corner-logo") ?? null;
       const wordmark = shell?.querySelector<HTMLHeadingElement>(".hero-wordmark-lockup") ?? null;
-      const vignette = shell?.querySelector<HTMLDivElement>(".hero-vignette") ?? null;
-      if (!loader || !shell || !fallback || !cornerLogo || !wordmark || !vignette) return;
+      if (!loader || !shell || !fallback || !cornerLogo || !wordmark) return;
       const safe = <Arguments extends unknown[], Result>(
         callback: (...arguments_: Arguments) => Result,
       ) => (contextSafe ? contextSafe(callback) : callback);
@@ -112,9 +111,7 @@ export function AscendPreloader() {
       root.dataset.ascendIgnitionMode = mode;
       shell.setAttribute("aria-busy", "true");
 
-      gsap.set([wordmark, vignette], {
-        autoAlpha: 0,
-      });
+      gsap.set(wordmark, { autoAlpha: 0 });
       gsap.set(wordmark, { yPercent: 8, scale: 0.98, transformOrigin: "center bottom" });
 
       const trace = loader.querySelector(".av-core-energy-trace");
@@ -223,7 +220,7 @@ export function AscendPreloader() {
             passive: true,
           }),
         );
-        gsap.set([wordmark, vignette], {
+        gsap.set(wordmark, {
           clearProps: "opacity,visibility,transform,filter",
         });
         try {
@@ -242,7 +239,7 @@ export function AscendPreloader() {
         window.clearTimeout(minimumTimer);
         loader.dataset.state = "releasing";
 
-        gsap.set([wordmark, vignette], { autoAlpha: 0 });
+        gsap.set(wordmark, { autoAlpha: 0 });
         gsap.set(wordmark, { yPercent: 8, scale: 0.98 });
         root.dataset.ascendBoot = "ready";
 
@@ -260,11 +257,6 @@ export function AscendPreloader() {
             onComplete: () => finishRelease(reason),
           });
           releaseTimeline
-            .to(vignette, {
-              autoAlpha: 1,
-              duration: mode === "reduced" ? 0.05 : mode === "warm" ? 0.09 : 0.2,
-              ease: "power2.out",
-            }, 0)
             .to(wordmark, {
               autoAlpha: 1,
               yPercent: 0,
