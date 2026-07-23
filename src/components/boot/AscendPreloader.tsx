@@ -7,7 +7,7 @@ import gsap from "gsap";
 const SESSION_KEY = "ascend-vanta:core-ignition:v1";
 const HERO_MOTION_EVENT = "ascend:hero-motion-ready";
 const BOOT_COMPLETE_EVENT = "ascend:boot-complete";
-const FULL_MINIMUM_MS = 620;
+const FULL_MINIMUM_MS = 550;
 const WARM_MINIMUM_MS = 220;
 const REDUCED_MINIMUM_MS = 100;
 const CRITICAL_SHELL_CEILING_MS = 1_250;
@@ -202,6 +202,7 @@ export function AscendPreloader() {
           .to(trace, { autoAlpha: 0, duration: 0.14 }, 0.5)
           .to(status, { autoAlpha: 0.78, duration: 0.1 }, 0.48);
       }
+      if (mode === "full") ignition.timeScale(1.25);
       if (mode === "warm") ignition.timeScale(2.5);
       if (mode === "reduced") ignition.timeScale(4);
 
@@ -241,13 +242,13 @@ export function AscendPreloader() {
           if (cancelled) return;
           window.dispatchEvent(new CustomEvent("ascend:hero-entering"));
           const veilDuration =
-            mode === "reduced" ? 0.05 : mode === "warm" ? 0.1 : 0.26;
+            mode === "reduced" ? 0.05 : mode === "warm" ? 0.09 : 0.2;
           const wordmarkDuration =
-            mode === "reduced" ? 0.06 : mode === "warm" ? 0.1 : 0.26;
+            mode === "reduced" ? 0.06 : mode === "warm" ? 0.09 : 0.22;
           const loaderFadeAt =
-            mode === "reduced" ? 0.01 : mode === "warm" ? 0.03 : 0.12;
+            mode === "reduced" ? 0.01 : mode === "warm" ? 0.03 : 0.08;
           const loaderFadeDuration =
-            mode === "reduced" ? 0.04 : mode === "warm" ? 0.08 : 0.16;
+            mode === "reduced" ? 0.04 : mode === "warm" ? 0.07 : 0.12;
           const releaseTimeline = gsap.timeline({
             defaults: { overwrite: "auto" },
             onComplete: () => finishRelease(reason),
@@ -255,7 +256,7 @@ export function AscendPreloader() {
           releaseTimeline
             .to(vignette, {
               autoAlpha: 1,
-              duration: mode === "reduced" ? 0.05 : mode === "warm" ? 0.1 : 0.24,
+              duration: mode === "reduced" ? 0.05 : mode === "warm" ? 0.09 : 0.2,
               ease: "power2.out",
             }, 0)
             .to(wordmark, {
@@ -282,7 +283,7 @@ export function AscendPreloader() {
             .to(".av-core-assembly", {
               scale: mode === "reduced" ? 1 : 1.14,
               autoAlpha: 0,
-              duration: mode === "reduced" ? 0.05 : mode === "warm" ? 0.09 : 0.22,
+              duration: mode === "reduced" ? 0.05 : mode === "warm" ? 0.08 : 0.18,
               ease: "power3.in",
             }, 0)
             .to(loader, {

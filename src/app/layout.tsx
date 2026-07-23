@@ -26,7 +26,7 @@ const initialFrameStyles =
   "html[data-ascend-boot=loading] body,html[data-ascend-boot=ready] body{overflow:hidden}" +
   "html[data-ascend-boot=loading] [data-hero-animated]:not([data-hero-first-scene]),html[data-ascend-boot=loading] .hero-canvas{visibility:hidden!important;opacity:0!important}" +
   "html[data-ascend-boot=loading] [data-hero-first-scene]{visibility:visible!important;opacity:1!important}" +
-  ".ascend-preloader{position:fixed;z-index:2147483000;inset:0;display:grid;overflow:hidden;place-items:center;background:radial-gradient(circle at 50% 48%,rgba(5,7,10,.08),rgba(5,7,10,.28));color:#f4f7f2;isolation:isolate}" +
+  ".ascend-preloader{position:fixed;z-index:2147483000;inset:0;display:grid;overflow:hidden;place-items:center;background:radial-gradient(circle at 50% 48%,rgba(5,7,10,.02),rgba(5,7,10,.12));color:#f4f7f2;isolation:isolate}" +
   "html[data-ascend-boot=emergency] .ascend-preloader{display:none!important}" +
   "@keyframes ascendEmergencyUnlock{to{overflow-y:auto}}" +
   "@keyframes ascendEmergencyReveal{to{visibility:visible;opacity:1}}" +

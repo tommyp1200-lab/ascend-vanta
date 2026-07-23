@@ -108,9 +108,9 @@ a {
   place-items: center;
   background: radial-gradient(
     circle at 50% 48%,
-    rgba(5, 7, 10, 0.04) 0 18%,
-    rgba(5, 7, 10, 0.2) 56%,
-    rgba(5, 7, 10, 0.34) 100%
+    rgba(5, 7, 10, 0.02) 0 18%,
+    rgba(5, 7, 10, 0.08) 56%,
+    rgba(5, 7, 10, 0.12) 100%
   );
   color: #f4f7f2;
   contain: layout paint style;
@@ -140,9 +140,9 @@ a {
   inset: -8%;
   background: radial-gradient(
     circle at 50% 50%,
-    rgba(5, 7, 10, 0.1),
-    rgba(5, 7, 10, 0.34) 62%,
-    rgba(5, 7, 10, 0.46)
+    rgba(5, 7, 10, 0.05),
+    rgba(5, 7, 10, 0.16) 62%,
+    rgba(5, 7, 10, 0.22)
   );
   pointer-events: none;
   will-change: transform, opacity;
