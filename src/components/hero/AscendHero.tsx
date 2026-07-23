@@ -239,7 +239,7 @@ export function AscendHero() {
               width={2400}
               height={1600}
               decoding="async"
-              fetchPriority="high"
+              loading="eager"
             />
           </picture>
           <div
