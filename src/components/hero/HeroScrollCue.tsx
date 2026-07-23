@@ -60,7 +60,12 @@ export function HeroScrollCue() {
   }, []);
 
   return (
-    <div className="hero-scroll-cue" data-visible={visible ? "true" : "false"} aria-hidden="true">
+    <div
+      className="hero-scroll-cue"
+      data-hero-animated
+      data-visible={visible ? "true" : "false"}
+      aria-hidden="true"
+    >
       <span className="hero-scroll-cue-copy">scroll down</span>
       <span className="hero-scroll-cue-motion">
         <span className="hero-scroll-cue-trace" />
