@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Space_Grotesk } from "next/font/google";
-import Script from "next/script";
 import {
   getSiteUrl,
   SITE_DESCRIPTION,
@@ -35,6 +34,8 @@ const initialFrameStyles =
   "html[data-ascend-boot=loading] body{animation:ascendEmergencyUnlock 0s 1.8s forwards}" +
   "html[data-ascend-boot=loading] [data-hero-animated]:not([data-hero-first-scene]){animation:ascendEmergencyReveal 0s 1.8s forwards}" +
   "html[data-ascend-boot=loading] .ascend-preloader{animation:ascendEmergencyHide 0s 1.8s forwards}";
+const bootRecoveryScript =
+  "(()=>{const r=document.documentElement;let t=0;const u=e=>{if(r.dataset.ascendBoot==='complete')return;r.dataset.ascendBoot='emergency';r.dataset.ascendBootReason=e;document.querySelector('[data-ascend-app]')?.setAttribute('aria-busy','false');document.querySelector('[data-ascend-preloader]')?.setAttribute('aria-hidden','true');dispatchEvent(new CustomEvent('ascend:boot-emergency',{detail:{reason:e}}))};const s=()=>{clearTimeout(t);t=setTimeout(()=>u('bootstrap-timeout'),1800)};addEventListener('ascend:boot-complete',()=>clearTimeout(t));addEventListener('pageshow',e=>{if(e.persisted){clearTimeout(t);r.dataset.ascendBoot='complete';r.dataset.ascendBootReason='bfcache';document.querySelector('[data-ascend-app]')?.setAttribute('aria-busy','false');document.querySelector('[data-ascend-preloader]')?.setAttribute('aria-hidden','true')}else s()});s()})();";
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
@@ -132,7 +133,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     >
       <head>
         <style>{initialFrameStyles}</style>
-        <Script src="/assets/js/ascend-boot.js" strategy="beforeInteractive" />
+        <script dangerouslySetInnerHTML={{ __html: bootRecoveryScript }} />
       </head>
       <body
         className={`${spaceGrotesk.variable} ${spaceGrotesk.className}`}
